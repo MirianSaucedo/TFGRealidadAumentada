@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"/>
+<title>InfoTour App</title>
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="style.css"/>
+
+<link rel="stylesheet" href="css/idangerous.swiper.css">
+<link rel="stylesheet" href="css/idangerous.swiper.scrollbar.css">
+<link rel="stylesheet" href="css/normalize.css">
+<link rel="stylesheet" href="css/simple-app.css">
+
+<script src="function.js"></script> 
+
+<style type="text/css">
+#principal li { 
+   display:inline; 
+   float:left; 
+   width:220px; 
+   background-color:#f5f7f9; 
+   padding:5px; 
+   margin:10px; 
+   text-align: center; 
+   border-right: #a5a7aa solid 1px; 
+   border-bottom: #a5a7aa solid 1px; 
+}
+</style>
+
+</head>
+
+<body>
+<!-- menu vertical -->
+<nav id="menu" class="left">
+  <ul>
+    <li><a href="index.html" onclick="openPage(this.href);return false"><i class="fa fa-home"></i>Inicio</a></li>
+    <li><a href="#"><i class="fa fa-info-circle"></i>Historia <i class="fa fa-caret-down"></i></a>
+    	<ul>
+	        <li><a href="jesus_ruinas.html" onclick="openPage(this.href);return false">Jesús de Tavarangue</a></li>
+	        <li><a href="trinidad_ruinas.html" onclick="openPage(this.href);return false">Trinidad del Paraná</a></li>
+      </ul>
+    </li>
+    <li><a href="metaioSDKExampleAREL:///?startTutorialID=RecorridoEspanhol" onclick="openPage(this.href);return false"><i class="fa fa-info-circle"></i>Recorrido RA</a></li>
+    <li> <a href="#"><i class="fa fa-laptop"></i>Cambiar Idioma <i class="fa fa-caret-down"></i></a>
+      <ul>
+        <li><a href="index.html" onclick="openPage(this.href);return false">Español</a></li>
+        <li><a href="indexIngles.html" onclick="openPage(this.href);return false">Inglés</a></li>
+        <li><a href="indexPortugues.html" onclick="openPage(this.href);return false">Portugués</a></li>
+      </ul>
+    </li>
+    <li><a href="contacto.html" onclick="openPage(this.href);return false"><i class="fa fa-phone"></i>Contáctanos</a></li>
+  </ul>
+  
+  <a href="#" id="showmenu"> <i class="fa fa-align-justify"></i> </a>  
+  </nav>
+<!-- /menu vertical --> 
+
+	<h1 style="text-align: center;">INFOTOUR</h1>
+				<div class="swiper-slide">
+				<div class="swiper-container swiper-gallery">
+					<div class="swiper-scrollbar"></div>
+					<div class="swiper-wrapper">
+						<div class="swiper-slide"><img src="img/ruinas-1.jpg" height="684" width="1024" alt=""></div>
+						<div class="swiper-slide"><img src="img/ruinas-2.jpg" height="800" width="532" alt=""></div>
+						<div class="swiper-slide"><img src="img/ruinas-3.jpg" height="800" width="532" alt=""></div>
+				</div>
+				</div>
+			</div>
+			
+
+<script src="jquery.min.js"></script> 
+<script src="js/jquery.min.js"></script>
+<!-- Don't forget to get the latest Swiper and scrollbar version here-->
+<script src="js/idangerous.swiper-2.0.min.js"></script>
+<script src="js/idangerous.swiper.scrollbar-2.0.js"></script>
+<script src="js/simple-app.js"></script>
+<script>
+$("#showmenu").click(function(e){
+			e.preventDefault();
+			$("#menu").toggleClass("show");
+		});
+		$("#menu a").click(function(event){
+			event.preventDefault();
+			if($(this).next('ul').length){
+				$(this).next().toggle('fast');
+				$(this).children('i:last-child').toggleClass('fa-caret-down fa-caret-left');
+			}
+		});
+</script>
+
+<script language="Javascript">
+function openPage(page) {
+	window.open(page,'window','params');
+}
+</script>
+
+</body>
+</html>
