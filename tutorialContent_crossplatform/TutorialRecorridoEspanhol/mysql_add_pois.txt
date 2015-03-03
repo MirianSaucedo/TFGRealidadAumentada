@@ -1,0 +1,2 @@
+insert into poi value(2, -27.098883, -56.019624, 'Hospital', 'Este es el Hospital de Fram', 'C:\xampp\htdocs\xampp\img\2.jpg');
+insert into poi value(3, -27.096371, -56.022484, 'Casa Pingui', 'Esta es la casa de Pinguina que queda en Fram. Algun dia iremos a visitarle', 'C:\xampp\htdocs\xampp\img\3.jpg');
