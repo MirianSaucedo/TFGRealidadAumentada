@@ -48,7 +48,7 @@ public class MainActivity extends Activity
 	 * multiple launches of the tutorial
 	 */
 	boolean mLaunchingTutorial;
-	
+	AlertDialog alert = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -56,8 +56,7 @@ public class MainActivity extends Activity
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.webview);
-		
-		
+
 		// Enable metaio SDK log messages based on build configuration
 		MetaioDebug.enableLogging(BuildConfig.DEBUG);
 		 
@@ -68,37 +67,30 @@ public class MainActivity extends Activity
 		mTask = new AssetsExtracter();
 		mTask.execute(0);
 		
+		final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+		if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+		      AlertNoGps();
+		 }
 	}
 	
-	private void checkGPSStatus() {
-	    LocationManager locationManager = null;
-	    boolean gps_enabled = false;
-	    boolean network_enabled = false;
-	    if ( locationManager == null ) {
-	        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-	    }
-	    try {
-	        gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-	    } catch (Exception ex){}
-	    try {
-	        network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-	    } catch (Exception ex){}
-	    if ( !gps_enabled && !network_enabled ){
-	        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-	        dialog.setMessage("GPS not enabled");
-	        dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-
-	            @Override
-	            public void onClick(DialogInterface dialog, int which) {
-	                //this will navigate user to the device location settings screen
-	                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-	                startActivity(intent);
-	            }
-	        });
-	        AlertDialog alert = dialog.create();
-	        alert.show();
-	    }
-	}
+	private void AlertNoGps() {
+	    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	    builder.setMessage("El sistema GPS esta desactivado, ¿Desea activarlo?")
+	           .setCancelable(false)
+	           .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+	               public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+	                   startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+	               }
+	           })
+	           .setNegativeButton("No", new DialogInterface.OnClickListener() {
+	               public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+	                    dialog.cancel();
+	               }
+	           });
+	    alert = builder.create();
+	    alert.show();
+	  }
+	
 	@Override
 	protected void onResume() 
 	{
