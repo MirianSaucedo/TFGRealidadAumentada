@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name"> InfoR</string>
+    <string name="app_name"> InfoTour</string>
     <string name="metaioSDKSignature">l3+zFdLCBPUCPxu0l4V25kvu4psHqBRP/tjTuJrD78w=</string>
     <string name="btnReset">Reset</string>
     <string name="btnClose">close</string>
