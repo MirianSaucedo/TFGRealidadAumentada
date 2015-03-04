@@ -62,11 +62,11 @@ public final class R {
 		public static final int actionButton = 0x7f070008;
 		public static final int audioButton = 0x7f070002;
 		public static final int buttonClose = 0x7f070009;
-		public static final int buttonShare = 0x7f07002f;
-		public static final int buttonWebBack = 0x7f070030;
-		public static final int buttonWebForward = 0x7f070033;
-		public static final int buttonWebReload = 0x7f070032;
-		public static final int buttonWebStop = 0x7f070031;
+		public static final int buttonShare = 0x7f07001b;
+		public static final int buttonWebBack = 0x7f07001c;
+		public static final int buttonWebForward = 0x7f07001f;
+		public static final int buttonWebReload = 0x7f07001e;
+		public static final int buttonWebStop = 0x7f07001d;
 		public static final int callButton = 0x7f070005;
 		public static final int collapsible = 0x7f070012;
 		public static final int emailButton = 0x7f070006;
@@ -78,24 +78,24 @@ public final class R {
 		public static final int includeChannelBadge = 0x7f070014;
 		public static final int layoutRotated = 0x7f07000c;
 		public static final int poidetailfragment = 0x7f07000b;
-		public static final int progressBar = 0x7f07002d;
+		public static final int progressBar = 0x7f070019;
 		public static final int ratingbar = 0x7f070010;
-		public static final int root = 0x7f07002b;
+		public static final int root = 0x7f070017;
 		public static final int routeButton = 0x7f070004;
 		public static final int textPOIDescription = 0x7f070013;
 		public static final int textPOILocation = 0x7f070011;
 		public static final int textPOIName = 0x7f07000f;
 		public static final int videoButton = 0x7f070003;
-		public static final int webBottomBar = 0x7f07002e;
-		public static final int webView = 0x7f07002c;
+		public static final int webBottomBar = 0x7f07001a;
+		public static final int webView = 0x7f070018;
 	}
 	public static final class layout {
 		public static final int button_action_detail = 0x7f030001;
 		public static final int html5container = 0x7f030002;
 		public static final int poiactivity = 0x7f030003;
 		public static final int poidetaildialog = 0x7f030004;
-		public static final int webview = 0x7f030013;
-		public static final int webviewnav = 0x7f030014;
+		public static final int webview = 0x7f030006;
+		public static final int webviewnav = 0x7f030007;
 	}
 	public static final class raw {
 		public static final int success = 0x7f040000;
