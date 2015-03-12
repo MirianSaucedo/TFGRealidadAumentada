@@ -1,0 +1,449 @@
+--------------------------------------------------------------------------------------------------
+COMO ESTA AHORA
+--------------------------------------------------------------------------------------------------
+var lizza = new arel.LLA(-27.03271, -55.45152, 0);
+	arel.Scene.getObject("1").setLocation(lizza);
+    arel.Scene.getObject("1").setVisibility(true,false,true);
+	arel.Scene.getObject("1").setLLALimitsEnabled(true);
+	arel.Scene.setLLAObjectRenderingLimits(3,500 );
+	
+	var newUrl = "http://192.168.128.1:80/xampp/getPoi2.php";
+	$.ajax({
+		type : "POST",
+		url : newUrl,
+		async: true,
+		success: function(datos){
+        	var dataJson = eval(datos);
+        	for(var i in dataJson){
+        		if(i<20){
+	        		var poi = new arel.LLA(dataJson[i].LA,dataJson[i].LO, 0);
+	        		createPOIGeometry(dataJson[i].ID, dataJson[i].N, poi, "  ");
+        		}
+        	}
+    	},
+		error: function (obj, error, objError){
+   		 alert("Error");
+		}
+	});
+-------------------------------------------------------------------------------------------------
+ARELGLUE ESPANHOL
+-------------------------------------------------------------------------------------------------
+	
+	
+	//var Lizza = new arel.LLA(-27.03271, -55.45152, 0);
+	//Variables para la Misión Jesuítica Guaraní - Jesús de Tavarangue
+	var Museo = new arel.LLA(-27.053866, -55.75255, 0);
+	var miradorar = new arel.LLA(-27.307033,-55.884433 , 0);
+	var miradorab = new arel.LLA(-27.057167, -55.751972, 0);
+	var plaza = new arel.LLA(-27.054516,-55.752533 , 0);
+	var fachada = new arel.LLA( -27.055733,-55.7526 , 0);
+	var hornacinasanpablo = new arel.LLA(-27.05575, -55.7526, 0);
+	var hornacinasanpedro = new arel.LLA(-27.055766,-55.75255, 0);
+	var pilarder = new arel.LLA(-27.055816,-55.752683, 0);
+	var pilarizq = new arel.LLA(-27.055866,-55.752566, 0);
+	var templo = new arel.LLA(-27.055883,-55.752633, 0);
+	var torreizq = new arel.LLA(-27.055806,-55.752722, 0);
+	var torreder = new arel.LLA(-27.055778,-55.752444, 0);
+	var pulpitoder = new arel.LLA(-27.056028,-55.752639, 0);
+	var pulpitoizq = new arel.LLA(-27.053278,-55.752556, 0);
+	var pilatesder = new arel.LLA(-27.056278,-55.752667, 0);
+	var altarmayor = new arel.LLA(-27.056306,-55.752611, 0);
+	var sacristiader = new arel.LLA(-27.056306,-55.752667, 0);
+	var sacristiaizq = new arel.LLA(-27.056306,-55.752556, 0);
+	var iglesiasecundaria = new arel.LLA(-27.056389,-55.752556, 0);
+	var fuenteagua = new arel.LLA(-27.056389,-55.752611, 0);
+	var corredorjere = new arel.LLA(-27.056361,-55.752889, 0);
+	var residenciapadres = new arel.LLA(-27.056417,-55.752861, 0);
+	var huertacomunitaria = new arel.LLA(-27.056583, -55.752889, 0);
+	var cementerio = new arel.LLA(-27.056167,-55.752306, 0);
+	//var canteraitakuare = new arel.LLA(0, 0, 0);
+	var colegio = new arel.LLA(-27.056417,-55.753000, 0);
+	var comedorycocina = new arel.LLA(-27.056361,-55.753444, 0);
+	var almacenydespensa = new arel.LLA(-27.056361,-55.753778, 0);
+	var talleres = new arel.LLA(-27.056361,-55.753778, 0);
+	var claustros = new arel.LLA(-27.056056,-55.753750, 0);
+	var aulaespiritual = new arel.LLA(-27.056056,-55.753556, 0);
+	var galeriacasasder = new arel.LLA(-27.055611,-55.751528, 0);
+	var galeriacasasizq = new arel.LLA(-27.055500,-55.753306, 0);
+	
+	var plazamayor = new arel.LLA(-27.130833,-55.701583, 0);
+	var casaindigenasizq = new arel.LLA(-27.130500,-55.701583, 0);
+	var casaindigenasder = new arel.LLA(-27.130944,-55.701056, 0);
+	var templomayor = new arel.LLA(-27.131694,-55.701917, 0);
+	var atriotemplomayor = new arel.LLA(-27.131833,-55.701833, 0);
+	var pilassantiguacion = new arel.LLA(-27.131833,-55.701861, 0);
+	var pilabaustimal = new arel.LLA(-27.131917,-55.701750, 0);
+	var altaranimas = new arel.LLA(-27.132361,-55.701972, 0);
+	var pulpito = new arel.LLA(-27.132139,-55.701861, 0);
+	var linealapidas = new arel.LLA(-27.131750,-55.702278, 0);
+	var murolateral = new arel.LLA(-27.131917,-55.701972, 0);
+	var cripta = new arel.LLA(-27.132333,-55.701972, 0);
+	var sacristias = new arel.LLA(-27.132306,-55.702028, 0);
+	var frisoangeles = new arel.LLA(-27.132361,-55.702111, 0);
+	var portico = new arel.LLA(-27.132417,-55.701972, 0);
+	var claustro = new arel.LLA(-27.132083,-55.702139, 0);
+	var habitacionsacerdotes = new arel.LLA(-27.132333,-55.702306, 0);
+	var aulascolegio = new arel.LLA(-27.132333,-55.702528, 0);
+	var talleres = new arel.LLA(-27.132111,-55.702944, 0);
+	var torreatalaya = new arel.LLA(-27.131167,-55.702694, 0);
+	var temploprimitivo = new arel.LLA(-27.130944,-55.702722, 0);
+	var basamento = new arel.LLA(-27.131750,-55.701833, 0);
+	var zonaarquelogica = new arel.LLA(-27.131194,-55.703417, 0);
+	var huerta = new arel.LLA(-27.132611,-55.702333, 0);
+	var cementerio = new arel.LLA(-27.132333,-55.701556, 0);
+	var carcel = new arel.LLA(-27.131739,-55.702076, 0);
+	var tapetuja = new arel.LLA(-27.130250,-55.701472, 0);
+	var artesanias = new arel.LLA(-27.130139,-55.701000, 0);
+	var centroinformacion = new arel.LLA(-27.129306,-55.701333, 0);
+
+	
+	//arel.Scene.getObject("1").setLocation(lizza);
+    //arel.Scene.getObject("1").setVisibility(true,false,true);
+	//arel.Scene.getObject("1").setLLALimitsEnabled(true);
+
+	
+	arel.Scene.setLLAObjectRenderingLimits(3,500 );
+	
+	createPOIGeometry("1", "Museo", Museo, "  ");
+	createPOIGeometry("2", "Mirador", miradorar, "  ");
+	createPOIGeometry("3", "Mirador", miradorab, "  ");
+	createPOIGeometry("4", "Plaza",plaza, "  ");
+	createPOIGeometry("5", "Fachada",fachada, "  ");
+	createPOIGeometry("6", "Hornacina-San Pablo",hornacinasanpablo, "  ");
+	createPOIGeometry("7", "Hornacina-San Pedro",hornacinasanpedro, "  ");
+	createPOIGeometry("8", "Pilar",pilarder, "  ");
+	createPOIGeometry("9", "Pilar",pilarizq, "  ");
+	createPOIGeometry("10", "Templo",templo, "  ");
+	createPOIGeometry("11", "Torre",torreizq, "  ");
+	createPOIGeometry("12", "Torre",torreder, "  ");
+	createPOIGeometry("13", "Pulpito",pulpitoder, "  ");
+	createPOIGeometry("14", "Pulpito",pulpitoizq, "  ");
+	createPOIGeometry("15", "Pilates",pilatesder, "  ");
+	createPOIGeometry("16", "Altar Mayor",altarmayor, "  ");
+	createPOIGeometry("17", "Sacrist\u00eda",sacristiader, "  ");
+	createPOIGeometry("18", "Sacrist\u00eda",sacristiaizq, "  ");
+	createPOIGeometry("19", "Iglesia Secundaria o Prebistero",iglesiasecundaria, "  ");
+	createPOIGeometry("20", "Fuente de Agua",fuenteagua, "  ");
+	createPOIGeometry("21", "Corredor Jere",corredorjere, "  ");
+	createPOIGeometry("22", "Residencia de los Padres",residenciapadres, "  ");
+	createPOIGeometry("23", "Huerta Comunitaria",huertacomunitaria, "  ");
+	createPOIGeometry("24", "Cementerio",cementerio, "  ");
+	//createPOIGeometry("25", "Cantera de Itakuare",canteraitakuare, "  ");
+	createPOIGeometry("26", "Colegio",colegio, "  ");
+	createPOIGeometry("27", "Comedor y Cocina",comedorycocina, "  ");
+	createPOIGeometry("28", "Almac\u00e9n",almacenydespensa, "  ");
+	createPOIGeometry("29", "Talleres",talleres, "  ");
+	createPOIGeometry("30", "Claustros",claustros, "  ");
+	createPOIGeometry("31", "Aula Espiritual",aulaespiritual, "  ");
+	createPOIGeometry("32", "Galer\u00eda de Casas",galeriacasasder, "  ");
+	createPOIGeometry("33", "Galer\u00eda de Casas",galeriacasasizq, "  ");
+	
+	createPOIGeometry("34", "Plaza Mayor",plazamayor, "  ");
+	createPOIGeometry("35", "Casa de Ind\u00edgenas",casaindigenasizq, "  ");
+	createPOIGeometry("36", "Casa de Ind\u00edgenas",casaindigenasder, "  ");
+	createPOIGeometry("37", "Templo Mayor",templomayor, "  ");
+	createPOIGeometry("38", "Atrio del Templo Mayor",atriotemplomayor, "  ");
+	createPOIGeometry("39", "Pilas de Santiguaci\u00f3n",pilassantiguacion, "  ");
+	createPOIGeometry("40", "Pila Bautismal",pilabaustimal, "  ");
+	createPOIGeometry("41", "Altar de las \u00c1nimas del Purgatorio", altaranimas, "  ");
+	createPOIGeometry("42", "P\u00falpito",pulpito, "  ");
+	createPOIGeometry("43", "Museo L\u00edtico",linealapidas, "  ");
+	createPOIGeometry("44", "Muro Lateral",murolateral, "  ");
+	createPOIGeometry("45", "Cripta",cripta, "  ");
+	createPOIGeometry("46", "Sacrist\u00edas",sacristias, "  ");
+	createPOIGeometry("47", "Friso de los \u00c1ngeles M\u00fasicos",frisoangeles, "  ");
+	createPOIGeometry("48", "P\u00f3rtico de las Sacrist\u00edas",portico, "  ");
+	createPOIGeometry("49", "Claustro",claustro, "  ");
+	createPOIGeometry("50", "Habitaci\u00f3n de Sacerdotes",habitacionsacerdotes, "  ");
+	createPOIGeometry("51", "Aulas del Colegio",aulascolegio, "  ");
+	createPOIGeometry("52", "Talleres",talleres, "  ");
+	createPOIGeometry("53", "Torre de Atalaya",torreatalaya, "  ");
+	createPOIGeometry("54", "Templo Primitivo",temploprimitivo, "  ");
+	createPOIGeometry("55", "Basamento-Antiguo Pilar de Piedra",basamento, "  ");
+	createPOIGeometry("56", "Zona Arqueol\u00f3gica",zonaarquelogica, "  ");
+	createPOIGeometry("57", "Huerta",huerta, "  ");
+	createPOIGeometry("58", "Cementerio",cementerio, "  ");
+	createPOIGeometry("59", "C\u00e1rcel",carcel, "  ");
+	createPOIGeometry("60", "Tape Tuja",tapetuja, "  ");
+	createPOIGeometry("61", "Artesan\u00edas",artesanias, "  ");
+	createPOIGeometry("62", "Centro de Informaci\u00f3n Tur\u00edstica",centroinformacion, "  ");
+---------------------------------------------------------------------------------------------------------
+AREL INGLES
+---------------------------------------------------------------------------------------------------------
+
+	
+//Variables para la Misión Jesuítica Guaraní - Jesús de Tavarangue
+var Museum = new arel.LLA(-27.053866, -55.75255, 0);
+var miradorar = new arel.LLA(-27.307033,-55.884433 , 0);
+var miradorab = new arel.LLA(-27.057167, -55.751972, 0);
+var plaza = new arel.LLA(-27.054516,-55.752533 , 0);
+var fachada = new arel.LLA( -27.055733,-55.7526 , 0);
+var hornacinasanpablo = new arel.LLA(-27.05575, -55.7526, 0);
+var hornacinasanpedro = new arel.LLA(-27.055766,-55.75255, 0);
+var pilarder = new arel.LLA(-27.055816,-55.752683, 0);
+var pilarizq = new arel.LLA(-27.055866,-55.752566, 0);
+var templo = new arel.LLA(-27.055883,-55.752633, 0);
+var torreizq = new arel.LLA(-27.055806,-55.752722, 0);
+var torreder = new arel.LLA(-27.055778,-55.752444, 0);
+var pulpitoder = new arel.LLA(-27.056028,-55.752639, 0);
+var pulpitoizq = new arel.LLA(-27.053278,-55.752556, 0);
+var pilatesder = new arel.LLA(-27.056278,-55.752667, 0);
+var altarmayor = new arel.LLA(-27.056306,-55.752611, 0);
+var sacristiader = new arel.LLA(-27.056306,-55.752667, 0);
+var sacristiaizq = new arel.LLA(-27.056306,-55.752556, 0);
+var iglesiasecundaria = new arel.LLA(-27.056389,-55.752556, 0);
+var fuenteagua = new arel.LLA(-27.056389,-55.752611, 0);
+var corredorjere = new arel.LLA(-27.056361,-55.752889, 0);
+var residenciapadres = new arel.LLA(-27.056417,-55.752861, 0);
+var huertacomunitaria = new arel.LLA(-27.056583, -55.752889, 0);
+var cementerio = new arel.LLA(-27.056167,-55.752306, 0);
+var colegio = new arel.LLA(-27.056417,-55.753000, 0);
+var comedorycocina = new arel.LLA(-27.056361,-55.753444, 0);
+var almacenydespensa = new arel.LLA(-27.056361,-55.753778, 0);
+var talleres = new arel.LLA(-27.056361,-55.753778, 0);
+var claustros = new arel.LLA(-27.056056,-55.753750, 0);
+var aulaespiritual = new arel.LLA(-27.056056,-55.753556, 0);
+var galeriacasasder = new arel.LLA(-27.055611,-55.751528, 0);
+var galeriacasasizq = new arel.LLA(-27.055500,-55.753306, 0);
+
+      //Misión Jesuítica Guaraní – La Santísima Trinidad del Paraná
+
+var plazamayor = new arel.LLA(-27.130833,-55.701583, 0);
+var casaindigenasizq = new arel.LLA(-27.130500,-55.701583, 0);
+var casaindigenasder = new arel.LLA(-27.130944,-55.701056, 0);
+var templomayor = new arel.LLA(-27.131694,-55.701917, 0);
+var atriotemplomayor = new arel.LLA(-27.131833,-55.701833, 0);
+var pilassantiguacion = new arel.LLA(-27.131833,-55.701861, 0);
+var pilabaustimal = new arel.LLA(-27.131917,-55.701750, 0);
+var altaranimas = new arel.LLA(-27.132361,-55.701972, 0);
+var pulpito = new arel.LLA(-27.132139,-55.701861, 0);
+var linealapidas = new arel.LLA(-27.131750,-55.702278, 0);
+var murolateral = new arel.LLA(-27.131917,-55.701972, 0);
+var cripta = new arel.LLA(-27.132333,-55.701972, 0);
+var sacristias = new arel.LLA(-27.132306,-55.702028, 0);
+var frisoangeles = new arel.LLA(-27.132361,-55.702111, 0);
+var portico = new arel.LLA(-27.132417,-55.701972, 0);
+var claustro = new arel.LLA(-27.132083,-55.702139, 0);
+var habitacionsacerdotes = new arel.LLA(-27.132333,-55.702306, 0);
+var aulascolegio = new arel.LLA(-27.132333,-55.702528, 0);
+var talleres = new arel.LLA(-27.132111,-55.702944, 0);
+var torreatalaya = new arel.LLA(-27.131167,-55.702694, 0);
+var temploprimitivo = new arel.LLA(-27.130944,-55.702722, 0);
+var basamento = new arel.LLA(-27.131750,-55.701833, 0);
+var zonaarquelogica = new arel.LLA(-27.131194,-55.703417, 0);
+var huerta = new arel.LLA(-27.132611,-55.702333, 0);
+var cementerio = new arel.LLA(-27.132333,-55.701556, 0);
+var carcel = new arel.LLA(-27.131739,-55.702076, 0);
+var tapetuja = new arel.LLA(-27.130250,-55.701472, 0);
+var artesanias = new arel.LLA(-27.130139,-55.701000, 0);
+var centroinformacion = new arel.LLA(-27.129306,-55.701333, 0);
+
+	//arel.Scene.getObject("1").setLocation(Museum);
+    //arel.Scene.getObject("1").setVisibility(true,false,true);
+	//arel.Scene.getObject("1").setLLALimitsEnabled(true);
+
+	arel.Scene.setLLAObjectRenderingLimits(3, 500);
+	
+
+	// Jesús de Tavarangue:
+createPOIGeometry("1", "Museum", Museum, "  ");
+createPOIGeometry("2", "Gazebo", miradorar, "  ");
+createPOIGeometry("3", "Gazebo", miradorab, "  ");
+createPOIGeometry("4", "Square",plaza, "  ");
+createPOIGeometry("5", "Frontage",fachada, "  ");
+createPOIGeometry("6", "Nicho-San Pablo",hornacinasanpablo, "  ");
+createPOIGeometry("7", "Nicho-San Pedro",hornacinasanpedro, "  ");
+createPOIGeometry("8", "Pillar",pilarder, "  ");
+createPOIGeometry("9", "Pillar",pilarizq, "  ");
+createPOIGeometry("10", "Church",templo, "  ");
+createPOIGeometry("11", "Tower",torreizq, "  ");
+createPOIGeometry("12", "Tower",torreder, "  ");
+createPOIGeometry("13", "Pulpit",pulpitoder, "  ");
+createPOIGeometry("14", "Pulpit",pulpitoizq, "  ");
+createPOIGeometry("15", "Pilates",pilatesder, "  ");
+createPOIGeometry("16", "High Altar",altarmayor, "  ");
+createPOIGeometry("17", "Sacristia",sacristiader, "  ");
+createPOIGeometry("18", "Sacristia",sacristiaizq, "  ");
+createPOIGeometry("19", "Secondary Church",iglesiasecundaria, "  ");
+createPOIGeometry("20", "Source of Water",fuenteagua, "  ");
+createPOIGeometry("21", "Corredor Jere",corredorjere, "  ");
+createPOIGeometry("22", "Residence of Priests",residenciapadres, "  ");
+createPOIGeometry("23", "Community Orchard",huertacomunitaria, "  ");
+createPOIGeometry("24", "Cemetery",cementerio, "  ");
+createPOIGeometry("26", "School",colegio, "  ");
+createPOIGeometry("27", "Dining Room",comedorycocina, "  ");
+createPOIGeometry("28", "Store",almacenydespensa, "  ");
+createPOIGeometry("29", "Workshop",talleres, "  ");
+createPOIGeometry("30", "Cloister",claustros, "  ");
+createPOIGeometry("31", "Spiritual Room",aulaespiritual, "  ");
+createPOIGeometry("32", "Houses Gallery",galeriacasasder, "  ");
+createPOIGeometry("33", "Houses Gallery",galeriacasasizq, "  ");
+
+createPOIGeometry("34", "Square",plazamayor, "  ");
+createPOIGeometry("35", "Indian House",casaindigenasizq, "  ");
+createPOIGeometry("36", "Indian House",casaindigenasder, "  ");
+createPOIGeometry("37", "Church",templomayor, "  ");
+createPOIGeometry("38", "Atrium of The Church",atriotemplomayor, "  ");
+createPOIGeometry("39", "Pile of Santiguacion",pilassantiguacion, "  ");
+createPOIGeometry("40", "Baptismal Font",pilabaustimal, "  ");
+createPOIGeometry("41", "Altar of The Souls of Purgatory", altaranimas, "  ");
+createPOIGeometry("42", "Pulpit",pulpito, "  ");
+createPOIGeometry("43", "Lithic Museum",linealapidas, "  ");
+createPOIGeometry("44", "Lateral Wall",murolateral, "  ");
+createPOIGeometry("45", "Crypt",cripta, "  ");
+createPOIGeometry("46", "Sacristies",sacristias, "  ");
+createPOIGeometry("47", "Frieze of Musicians Angeles",frisoangeles, "  ");
+createPOIGeometry("48", "Portico of The Sacristy",portico, "  ");
+createPOIGeometry("49", "The Cloister",claustro, "  ");
+createPOIGeometry("50", "Rooms of The Priests",habitacionsacerdotes, "  ");
+createPOIGeometry("51", "Classrooms",aulascolegio, "  ");
+createPOIGeometry("52", "Workshops",talleres, "  ");
+createPOIGeometry("53", "Tower of Atalaya",torreatalaya, "  ");
+createPOIGeometry("54", "Primitivo Temple",temploprimitivo, "  ");
+createPOIGeometry("55", "Basament",basamento, "  ");
+createPOIGeometry("56", "Archaeological Site",zonaarquelogica, "  ");
+createPOIGeometry("57", "Orchard",huerta, "  ");
+createPOIGeometry("58", "Cemetery",cementerio, "  ");
+createPOIGeometry("59", "Jail",carcel, "  ");
+createPOIGeometry("60", "Tape Tuja",tapetuja, "  ");
+createPOIGeometry("61", "Crafts",artesanias, "  ");
+createPOIGeometry("62", "Tourist Information Center",centroinformacion, "  ");
+---------------------------------------------------------------------------------------------
+PORTUGUES
+---------------------------------------------------------------------------------------------
+
+	//Variables para la Misión Jesuítica Guaraní - Jesús de Tavarangue
+	var Museo = new arel.LLA(-27.053866, -55.75255, 0);
+	var miradorar = new arel.LLA(-27.307033,-55.884433 , 0);
+	var miradorab = new arel.LLA(-27.057167, -55.751972, 0);
+	var plaza = new arel.LLA(-27.054516,-55.752533 , 0);
+	var fachada = new arel.LLA( -27.055733,-55.7526 , 0);
+	var hornacinasanpablo = new arel.LLA(-27.05575, -55.7526, 0);
+	var hornacinasanpedro = new arel.LLA(-27.055766,-55.75255, 0);
+	var pilarder = new arel.LLA(-27.055816,-55.752683, 0);
+	var pilarizq = new arel.LLA(-27.055866,-55.752566, 0);
+	var templo = new arel.LLA(-27.055883,-55.752633, 0);
+	var torreizq = new arel.LLA(-27.055806,-55.752722, 0);
+	var torreder = new arel.LLA(-27.055778,-55.752444, 0);
+	var pulpitoder = new arel.LLA(-27.056028,-55.752639, 0);
+	var pulpitoizq = new arel.LLA(-27.053278,-55.752556, 0);
+	var pilatesder = new arel.LLA(-27.056278,-55.752667, 0);
+	var altarmayor = new arel.LLA(-27.056306,-55.752611, 0);
+	var sacristiader = new arel.LLA(-27.056306,-55.752667, 0);
+	var sacristiaizq = new arel.LLA(-27.056306,-55.752556, 0);
+	var iglesiasecundaria = new arel.LLA(-27.056389,-55.752556, 0);
+	var fuenteagua = new arel.LLA(-27.056389,-55.752611, 0);
+	var corredorjere = new arel.LLA(-27.056361,-55.752889, 0);
+	var residenciapadres = new arel.LLA(-27.056417,-55.752861, 0);
+	var huertacomunitaria = new arel.LLA(-27.056583, -55.752889, 0);
+	var cementerio = new arel.LLA(-27.056167,-55.752306, 0);
+	//var canteraitakuare = new arel.LLA(0, 0, 0);
+	var colegio = new arel.LLA(-27.056417,-55.753000, 0);
+	var comedorycocina = new arel.LLA(-27.056361,-55.753444, 0);
+	var almacenydespensa = new arel.LLA(-27.056361,-55.753778, 0);
+	var talleres = new arel.LLA(-27.056361,-55.753778, 0);
+	var claustros = new arel.LLA(-27.056056,-55.753750, 0);
+	var aulaespiritual = new arel.LLA(-27.056056,-55.753556, 0);
+	var galeriacasasder = new arel.LLA(-27.055611,-55.751528, 0);
+	var galeriacasasizq = new arel.LLA(-27.055500,-55.753306, 0);
+	
+	var plazamayor = new arel.LLA(-27.130833,-55.701583, 0);
+	var casaindigenasizq = new arel.LLA(-27.130500,-55.701583, 0);
+	var casaindigenasder = new arel.LLA(-27.130944,-55.701056, 0);
+	var templomayor = new arel.LLA(-27.131694,-55.701917, 0);
+	var atriotemplomayor = new arel.LLA(-27.131833,-55.701833, 0);
+	var pilassantiguacion = new arel.LLA(-27.131833,-55.701861, 0);
+	var pilabaustimal = new arel.LLA(-27.131917,-55.701750, 0);
+	var altaranimas = new arel.LLA(-27.132361,-55.701972, 0);
+	var pulpito = new arel.LLA(-27.132139,-55.701861, 0);
+	var linealapidas = new arel.LLA(-27.131750,-55.702278, 0);
+	var murolateral = new arel.LLA(-27.131917,-55.701972, 0);
+	var cripta = new arel.LLA(-27.132333,-55.701972, 0);
+	var sacristias = new arel.LLA(-27.132306,-55.702028, 0);
+	var frisoangeles = new arel.LLA(-27.132361,-55.702111, 0);
+	var portico = new arel.LLA(-27.132417,-55.701972, 0);
+	var claustro = new arel.LLA(-27.132083,-55.702139, 0);
+	var habitacionsacerdotes = new arel.LLA(-27.132333,-55.702306, 0);
+	var aulascolegio = new arel.LLA(-27.132333,-55.702528, 0);
+	var talleres = new arel.LLA(-27.132111,-55.702944, 0);
+	var torreatalaya = new arel.LLA(-27.131167,-55.702694, 0);
+	var temploprimitivo = new arel.LLA(-27.130944,-55.702722, 0);
+	var basamento = new arel.LLA(-27.131750,-55.701833, 0);
+	var zonaarquelogica = new arel.LLA(-27.131194,-55.703417, 0);
+	var huerta = new arel.LLA(-27.132611,-55.702333, 0);
+	var cementerio = new arel.LLA(-27.132333,-55.701556, 0);
+	var carcel = new arel.LLA(-27.131739,-55.702076, 0);
+	var tapetuja = new arel.LLA(-27.130250,-55.701472, 0);
+	var artesanias = new arel.LLA(-27.130139,-55.701000, 0);
+	var centroinformacion = new arel.LLA(-27.129306,-55.701333, 0);
+
+	
+	arel.Scene.getObject("1").setLocation(Museo);
+    arel.Scene.getObject("1").setVisibility(true,false,true);
+	arel.Scene.getObject("1").setLLALimitsEnabled(true);
+
+	
+	arel.Scene.setLLAObjectRenderingLimits(80, 2500);
+	
+	createPOIGeometry("2", "Mirador", miradorar, "  ");
+	createPOIGeometry("3", "Mirador", miradorab, "  ");
+	createPOIGeometry("4", "Pra\00E7a",plaza, "  ");
+	createPOIGeometry("5", "Fachada",fachada, "  ");
+	createPOIGeometry("6", "Hornacina-S\00E3o Pablo",hornacinasanpablo, "  ");
+	createPOIGeometry("7", "Hornacina-S\00E3o Pedro",hornacinasanpedro, "  ");
+	createPOIGeometry("8", "Pilar",pilarder, "  ");
+	createPOIGeometry("9", "Pilar",pilarizq, "  ");
+	createPOIGeometry("10", "Templo",templo, "  ");
+	createPOIGeometry("11", "Torre",torreizq, "  ");
+	createPOIGeometry("12", "Torre",torreder, "  ");
+	createPOIGeometry("13", "Pulpito",pulpitoder, "  ");
+	createPOIGeometry("14", "Pulpito",pulpitoizq, "  ");
+	createPOIGeometry("15", "Pilates",pilatesder, "  ");
+	createPOIGeometry("16", "Altar Maior",altarmayor, "  ");
+	createPOIGeometry("17", "Sacrist\u00eda",sacristiader, "  ");
+	createPOIGeometry("18", "Sacrist\u00eda",sacristiaizq, "  ");
+	createPOIGeometry("19", "Igreja Secondaria ou Prebistero",iglesiasecundaria, "  ");
+	createPOIGeometry("20", "Fonte de Agua",fuenteagua, "  ");
+	createPOIGeometry("21", "Corredor Jere",corredorjere, "  ");
+	createPOIGeometry("22", "Residencia dos Pais",residenciapadres, "  ");
+	createPOIGeometry("23", "Huerta Comunitaria",huertacomunitaria, "  ");
+	createPOIGeometry("24", "Cementerio",cementerio, "  ");
+	//createPOIGeometry("25", "Cantera de Itakuare",canteraitakuare, "  ");
+	createPOIGeometry("26", "Colegio",colegio, "  ");
+	createPOIGeometry("27", "Comedor e Cocina",comedorycocina, "  ");
+	createPOIGeometry("28", "Almac\u00e9n",almacenydespensa, "  ");
+	createPOIGeometry("29", "Taleres",talleres, "  ");
+	createPOIGeometry("30", "Claustros",claustros, "  ");
+	createPOIGeometry("31", "Aula Espiritual",aulaespiritual, "  ");
+	createPOIGeometry("32", "Galer\u00ed a de Casas",galeriacasasder, "  ");
+	createPOIGeometry("33", "Galer\u00ed a de Casas",galeriacasasizq, "  ");
+	
+	createPOIGeometry("34", "Pra\00E7a Maior",plazamayor, "  ");
+	createPOIGeometry("35", "Casa dos Ind\u00edgenas",casaindigenasizq, "  ");
+	createPOIGeometry("36", "Casa dos Ind\u00edgenas",casaindigenasder, "  ");
+	createPOIGeometry("37", "Templo Maior",templomayor, "  ");
+	createPOIGeometry("38", "Atrio do Templo Maior",atriotemplomayor, "  ");
+	createPOIGeometry("39", "Pilas de Santiguaci\u00f3n",pilassantiguacion, "  ");
+	createPOIGeometry("40", "Pila Bautismal",pilabaustimal, "  ");
+	createPOIGeometry("41", "Altar das \u00c1nimas do Purgatorio", altaranimas, "  ");
+	createPOIGeometry("42", "P\u00falpito",pulpito, "  ");
+	createPOIGeometry("43", "Museo L\u00edtico",linealapidas, "  ");
+	createPOIGeometry("44", "Muro Lateral",murolateral, "  ");
+	createPOIGeometry("45", "Cripta",cripta, "  ");
+	createPOIGeometry("46", "Sacrist\u00edas",sacristias, "  ");
+	createPOIGeometry("47", "Friso dos Ángeles Músicos",frisoangeles, "  ");
+	createPOIGeometry("48", "Portal das Sacrist\u00edas",portico, "  ");
+	createPOIGeometry("49", "Claustro",claustro, "  ");
+	createPOIGeometry("50", "Habita\00E7\00E3o dos Sacerdotes",habitacionsacerdotes, "  ");
+	createPOIGeometry("51", "Aulas do Colegio",aulascolegio, "  ");
+	createPOIGeometry("52", "Talleres",talleres, "  ");
+	createPOIGeometry("53", "Torre de Atalaya",torreatalaya, "  ");
+	createPOIGeometry("54", "Templo Primitivo",temploprimitivo, "  ");
+	createPOIGeometry("55", "Basamento-Antigo Pilar de Pedra",basamento, "  ");
+	createPOIGeometry("56", "Zona Arqueol\u00f3gica",zonaarquelogica, "  ");
+	createPOIGeometry("57", "Huerta",huerta, "  ");
+	createPOIGeometry("58", "Cementerio",cementerio, "  ");
+	createPOIGeometry("59", "C\u00e1rcel",carcel, "  ");
+	createPOIGeometry("60", "Tape Tuja",tapetuja, "  ");
+	createPOIGeometry("61", "Artesan\u00edas",artesanias, "  ");
+	createPOIGeometry("62", "Centro de Informa\00E7\00E3oo Tur\u00edstica",centroinformacion, "  ");
