@@ -1,13 +1,13 @@
 arel.sceneReady(function()
 {
 	console.log("sceneReady");
-	//var lizza = new arel.LLA(-27.03271, -55.45152, 0);
-	//arel.Scene.getObject("1").setLocation(lizza);
-    //arel.Scene.getObject("1").setVisibility(true,false,true);
-	//arel.Scene.getObject("1").setLLALimitsEnabled(true);
+	/*var lizza = new arel.LLA(-27.03271, -55.45152, 0);
+	arel.Scene.getObject("1").setLocation(lizza);
+    arel.Scene.getObject("1").setVisibility(true,false,true);
+	arel.Scene.getObject("1").setLLALimitsEnabled(true);*/
 	arel.Scene.setLLAObjectRenderingLimits(3,500 );
 	
-	var newUrl = "http://www.academico.fiuni.edu.py/infor/poiruinas/getPoi2.php";
+	var newUrl = "http://www.academico.fiuni.edu.py/infor/poiruinas/getPoi2.php?password=password";
 	$.ajax({
 		type : "POST",
 		url : newUrl,
@@ -15,8 +15,10 @@ arel.sceneReady(function()
 		success: function(datos){
         	var dataJson = eval(datos);
         	for(var i in dataJson){
-	        	var poi = new arel.LLA(dataJson[i].LA,dataJson[i].LO, 0);
-	        	createPOIGeometry(dataJson[i].ID, dataJson[i].NAME, poi, "  ");
+        		if(i<20){
+	        		var poi = new arel.LLA(dataJson[i].LA,dataJson[i].LO, 0);
+	        		createPOIGeometry(dataJson[i].ID, dataJson[i].NAME, poi, "  ");
+        		}
         	}
     	},
 		error: function (obj, error, objError){
