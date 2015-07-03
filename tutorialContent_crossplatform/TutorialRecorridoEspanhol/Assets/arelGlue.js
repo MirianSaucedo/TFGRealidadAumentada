@@ -17,7 +17,7 @@ arel.sceneReady(function()
         	for(var i in dataJson){
         		if(i<20){
 	        		var poi = new arel.LLA(dataJson[i].LA,dataJson[i].LO, 0);
-	        		createPOIGeometry(dataJson[i].ID, dataJson[i].NOMBRE, poi, "  ");
+	        		createPOIGeometry(dataJson[i].ID, dataJson[i].NOMBRE, poi, dataJson[i].DESCRIPCION, dataJson[i].IMAGEN);
         		}
         	}
     	},
@@ -28,7 +28,7 @@ arel.sceneReady(function()
 });
 
 // Dynamically create arel POIs. You can of course also just define them in XML.
-function createPOIGeometry(id, title, location, description)
+function createPOIGeometry(id, title, location, description, imagen)
 {
 	var newPOI = new arel.Object.POI();
 	newPOI.setMinDistance(1);
@@ -39,32 +39,15 @@ function createPOIGeometry(id, title, location, description)
 	newPOI.setThumbnail("");
 	newPOI.setIcon("");
 	newPOI.setVisibility(true,true,true);
-	
-	var newUrl = "http://www.academico.fiuni.edu.py/infor/poiruinas/getPoi.php?id=" + id;
 	newPOI.onTouchStarted = function(){ 
-		$.ajax({
-			type : "POST",
-			url : newUrl,
-			async: true,
-			success: function(datos){
-	        	var dataJson = eval(datos);
-             
-            	for(var i in dataJson){
-            		$.ClassyNotty({
-						title : title,
-						content : dataJson[i].D,
-						img : dataJson[i].I,
-						click : function() {
-									arel.Media.speak(dataJson[i].D);
-								}
-	      			}); 
-            	}
-             
-        	},
-       			error: function (obj, error, objError){
-           		 alert("Error");
-        		}
-		});
+		$.ClassyNotty({
+			title : title,
+			content : description,
+			img : imagen,
+			click : function() {
+						arel.Media.speak(description);
+					}
+		}); 
 	};
     
     
