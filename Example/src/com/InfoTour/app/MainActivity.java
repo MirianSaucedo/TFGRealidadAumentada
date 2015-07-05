@@ -85,6 +85,7 @@ public class MainActivity extends Activity
 	           .setNegativeButton("No", new DialogInterface.OnClickListener() {
 	               public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
 	                    dialog.cancel();
+	                    finish();
 	               }
 	           });
 	    alert = builder.create();
