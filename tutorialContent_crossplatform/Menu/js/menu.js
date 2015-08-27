@@ -45,7 +45,7 @@ var ingles = ''
 	+ '<nav id="menu" class="left">'
 	+ '  <ul> '
 	+ '	<li><a href="#" onclick="mostrarPaginaIndex()"><i class="fa fa-home"></i>Home</a></li> '
-	+ '	<li><a href="#"><i class="fa fa-info-circle"></i>Historia <i class="fa fa-caret-down"></i></a> '
+	+ '	<li><a href="#"><i class="fa fa-info-circle"></i>History<i class="fa fa-caret-down"></i></a> '
 	+ '		<ul> '
 	+ '			<li><a href="#" onclick="mostrarPaginaHistoriaJesus()">Jesús de Tavarangue</a></li> '
 	+ '			<li><a href="#" onclick="mostrarPaginaHistoriaTrinidad()">Trinidad del Paraná</a></li> '
@@ -192,6 +192,9 @@ function cambiarMenuPortugues(){
 	if(null != contenidoTrinidad){
 		contenidoTrinidad.innerHTML = trinidad_por;
 	}
+	$("#comienza").html("Inicia");
+	$("#tu_recorrido").html("sua jornada");
+	$("#link").html('<a href="metaioSDKExampleAREL:///?startTutorialID=RecorridoPortugues" class="button style2">INICIA RA</a>');
 	paraMenu();
 }
 
@@ -213,6 +216,9 @@ function cambiarMenuEspanol(){
 	if(null != contenidoTrinidad){
 		contenidoTrinidad.innerHTML = trinidad_esp;
 	}
+	$("#comienza").html("Comienza");
+	$("#tu_recorrido").html("tu recorrido");
+	$("#link").html('<a href="metaioSDKExampleAREL:///?startTutorialID=RecorridoEspanhol" class="button style2">RECORRIDO RA</a>');
 	paraMenu();
 }
 
@@ -234,6 +240,9 @@ function cambiarMenuIngles(){
 	if(null != contenidoTrinidad){
 		contenidoTrinidad.innerHTML = trinidad_ing;
 	}
+	$("#comienza").html("Start");
+	$("#tu_recorrido").html("your ride");
+	$("#link").html('<a href="metaioSDKExampleAREL:///?startTutorialID=RecorridoIngles" class="button style2">RUN RA</a>');
 	paraMenu();
 }
 
@@ -283,4 +292,11 @@ function mostrarPaginaHistoriaTrinidad(){
 	document.getElementById("historiaJesus").style.display = 'none';
 	document.getElementById("historiaTrinidad").style.display = 'block';
 	$("#showmenu").click();
+}
+
+/**
+ *
+ */
+function redireccionarAMap(){
+	arel.Navigation.routeToLocationOnMap(-27.053866, -55.75255);
 }

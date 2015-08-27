@@ -243,7 +243,7 @@ p.center-on-mobile {
   z-index: 10;
   width: 280px;
   color: #bbb;
-  top: 0;
+  top: 5px;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   transition: all 0.3s ease;
@@ -362,5 +362,20 @@ p.center-on-mobile {
   color:#FFFFFF;
   padding:10px;
 }
+
+#barra-superior {
+background: #444;  /*Color de la barra*/
+width:relative; 
+height:40px; /*Alto de la barra*/
+margin:0;
+position:relative; /*Para que la barra se quede fija*/
+z-index:1; /*Para que la barra se quede fija*/ 
+}
+#titlemenu{
+	margin:0 auto;
+	width:relative; /*Ancho del menú dentro de la barra, con este valor sobra*/
+	height:30px;
+}
+
 
 

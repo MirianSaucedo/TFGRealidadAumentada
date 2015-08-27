@@ -30,3 +30,23 @@ function avanzaSlide(){
         //mostramos la nueva imagen
 	mostrar(arrayImagenes[contador]);
 }
+
+//funcion para enviar mails
+function enviarMail(){
+	var recipient = 'pedrodamiangv@gmail.com',
+     subject   = 'Hi',
+     message  = 'Write the body of your message here';
+
+	location.href = 'http://mail.google.com/mail/?view=cm&fs=1'+
+                '&to=' + recipient +
+                '&su=' + subject +
+                '&body=' + message +
+                '&ui=1';
+                
+     alert("Envio");
+}
+
+function enviarMail2(){
+	var usuario = prompt('Introduce el usuario',' ');
+	document.location="mailto:pedrodamiangv@gmail.com?subject="+usuario;
+}
