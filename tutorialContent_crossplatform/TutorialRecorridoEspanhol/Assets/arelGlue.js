@@ -7,14 +7,12 @@ arel.sceneReady(function()
 	//arel.Scene.shareScreenshot(true);
 	arel.Scene.setLLAObjectRenderingLimits(3,500 );
 	
-	$('#GPSBtn').click(function(){arel.Scene.switchChannel(123456);});
-	
 	arel.Scene.getLocation(function(location){
 		var jesus = new arel.LLA(-27.053866,-55.75255, 0);
 		var distanciaJesus = arel.Util.getDistanceBetweenLocationsInMeter(location, jesus);
 		var trinidad = new arel.LLA(-27.129306,-55.701333, 0);
 		var distanciaTrinidad = arel.Util.getDistanceBetweenLocationsInMeter(location, trinidad);
-		if(distanciaJesus < 5000 || distanciaTrinidad < 5000){
+		if(distanciaJesus < 2000 || distanciaTrinidad < 2000){
 			var newUrl = "http://www.academico.fiuni.edu.py/infor/poiruinas/getPoi2.php?password=password";
 			$.ajax({
 				type : "POST",
@@ -22,20 +20,15 @@ arel.sceneReady(function()
 				async: true,
 				success: function(datos){
 		        	var dataJson = eval(datos);
-		        	if(distanciaJesus < 5000){
-		        		for(var i in dataJson){
-		        			if(i < 34){
-		        				var poi = new arel.LLA(dataJson[i].LA,dataJson[i].LO, 0);
-	        					createPOIGeometry(dataJson[i].ID, dataJson[i].NOMBRE, poi, dataJson[i].DESCRIPCION, dataJson[i].IMAGEN);
-		    				}
-		    			}
-		    		} else {
-		    			for(var i in dataJson){
-		        			if(i >= 34){
-		        				var poi = new arel.LLA(dataJson[i].LA,dataJson[i].LO, 0);
-	        					createPOIGeometry(dataJson[i].ID, dataJson[i].NOMBRE, poi, dataJson[i].DESCRIPCION, dataJson[i].IMAGEN);
-		    				}
-		    			}
+		        	for(var i in dataJson){
+		        		var ciudad = dataJson[i].CIUDAD;
+		        		if(distanciaJesus < 2000 && ciudad.indexOf("jesus") != -1){
+		        			var poi = new arel.LLA(dataJson[i].LA,dataJson[i].LO, 0);
+	        				createPOIGeometry(dataJson[i].ID, dataJson[i].NOMBRE, poi, dataJson[i].DESCRIPCION, dataJson[i].IMAGEN);
+		    			} else {
+		        			var poi = new arel.LLA(dataJson[i].LA,dataJson[i].LO, 0);
+	        				createPOIGeometry(dataJson[i].ID, dataJson[i].NOMBRE, poi, dataJson[i].DESCRIPCION, dataJson[i].IMAGEN);
+		    			} 	
 		        	}
 		    	},
 				error: function (obj, error, objError){
@@ -89,7 +82,6 @@ function createPOIGeometry(id, title, location, description, imagen)
 					}
 		}); 
 	};
- 
 	arel.Scene.addObject(newPOI);
 }
 
@@ -106,38 +98,29 @@ function createPOIGeneric(id, title, location, description, imagen)
 	newPOI.setIcon(imagen);
 	newPOI.setVisibility(true,true,true);
 	newPOI.onTouchStarted = function(){ 
-	    /*new PNotify({
-	        title: title,
-	        text: description,
-	        icon: imagen,
-	        hide: false,
-	        confirm: {
-	            confirm: true,
-	            buttons: [{
-	                text: 'Ver Mapa',
-	                addClass: 'btn-primary',
-	                click: function(notice) {
-	                    arel.Navigation.routeToObjectOnMap(newPOI);
-	                }
-	            }, {
-	                text: 'Escuchar',
-	                click: function(notice) {
-	                    arel.Media.speak(description);
-	                }
-	            }}]
-	        },
-	        buttons: {
-	            closer: true,
-	            sticker: true
-	        },
-	        history: {
-	            history: false
-	        }
-	    });*/
-	    new PNotify({
-	        title: 'Regular Notice',
-	        text: 'Check me out! I\'m a notice.'
-	    });
+		noty({
+			layout: 'topRight',
+			theme: 'relax',
+			text: '<b>' + title + '</b></br>' + description,
+			maxVisible: 1,
+		    killer: true,
+		    closeWith: ['click'],
+			buttons: [
+				{addClass: 'btn btn-primary', text: 'Escuchar', onClick: function() {
+						arel.Media.speak(description);
+					}
+				},
+				{addClass: 'btn btn-danger', text: 'Ver Mapa', onClick: function() {
+						$.noty.closeAll();
+						arel.Navigation.routeToObjectOnMap(newPOI);
+					}
+				},
+				{addClass: 'btn', text: 'Cerrar', onClick: function() {
+						$.noty.closeAll();
+					}
+				}
+			]
+		});
 	};
 	arel.Scene.addObject(newPOI);
 }

@@ -33,20 +33,62 @@ function avanzaSlide(){
 
 //funcion para enviar mails
 function enviarMail(){
-	var recipient = 'pedrodamiangv@gmail.com',
-     subject   = 'Hi',
-     message  = 'Write the body of your message here';
-
-	location.href = 'http://mail.google.com/mail/?view=cm&fs=1'+
-                '&to=' + recipient +
-                '&su=' + subject +
-                '&body=' + message +
-                '&ui=1';
-                
-     alert("Envio");
-}
-
-function enviarMail2(){
-	var usuario = prompt('Introduce el usuario',' ');
-	document.location="mailto:pedrodamiangv@gmail.com?subject="+usuario;
+	if($("#nombre").val().trim() === '' || $("#email").val().trim() === '' || $("#mensaje").val().trim() === ''){
+		$.ClassyNotty({
+			title : "ATENTION",
+			content : "Complete los campos vacios </br> Fill the empty fields </br>  Complete os campos em branco",
+			img : 'http://academico.fiuni.edu.py/infor/poiruinas/img/incorrecto.png',
+			showTime: false
+		});
+	} else {
+		$.ajax({
+			  type: "POST",
+			  url: "https://mandrillapp.com/api/1.0/messages/send.json",
+			  data: {
+			    'key': 'hDoJjlYotMuplxwFkJK1HQ',
+			    'message': {
+			      'from_email': $("#email").val(),
+			      'to': [
+			          {
+			            'email': 'pedrodamiangv@gmail.com',
+			            'name': 'Infotour',
+			            'type': 'to'
+			          },
+			          {
+			            'email': 'miriansau@gmail.com',
+			            'name': 'Infotour',
+			            'type': 'to'
+			          },
+			          {
+			            'email': 'lizza.skr08@gmail.com',
+			            'name': 'Infotour',
+			            'type': 'to'
+			          }
+			        ],
+			      'autotext': 'true',
+			      'subject': $("#nombre").val(),
+			      'html': $("#mensaje").val() + '</br> Enviado desde la app infotour!'
+			    }
+			  }
+		 }).done(function(response) {
+			  $("#nombre").val("");
+			  $("#email").val("");
+			  $("#mensaje").val("");
+			  $.ClassyNotty({
+					title : "ok!",
+					content : "Te has contactado con nosotros, en breve responderemos tu email."
+								+ "</br>  Your email was sent, we will reply in a moment."
+								+ "</br>  Voce contacto com infotour, recibira uma resposta em breve.",
+					img : 'http://academico.fiuni.edu.py/infor/poiruinas/img/correcto.png',
+					showTime: false
+			  }); 
+		 }).fail(function(jqXHR, textStatus){
+		 	$.ClassyNotty({
+				title : "ATENTION",
+				content : "Campos invalidos </br> Invalid fields </br>  Os campos não som validos. </br> Error: " + jqXHR.responseText,
+				img : 'http://academico.fiuni.edu.py/infor/poiruinas/img/incorrecto.png',
+				showTime: false
+			});
+		 });
+	}
 }

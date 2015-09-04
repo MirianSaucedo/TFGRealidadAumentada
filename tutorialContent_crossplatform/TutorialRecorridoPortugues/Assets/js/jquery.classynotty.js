@@ -42,7 +42,7 @@
             }
         });
         hide.addClass('nhide');
-        hide.html('Cerrar');
+        hide.html('Fechar');
         if (settings.img !== undefined) {
             image = $('<div>', {
                 style: 'background: url(' + settings.img + ')'
@@ -90,28 +90,28 @@
         hide.appendTo(notty);
         function timeSince(time) {
             var time_formats = [
-                [2, "Un segundo", "Un segundo desde ahora"], 
+                [2, "Um segundo", "Um segundo desde agora"], 
                 [60, "segundos", 1], 
-                [120, "Un minuto", "Un minuto desde ahora"], 
+                [120, "Um minuto", "Um minuto desde agora"], 
                 [3600, "minutos", 60], 
-                [7200, "Una hora", "Una hora desde ahora"], 
+                [7200, "Uma hora", "Uma hora desde agora"], 
                 [86400, "horas", 3600], 
-                [172800, "Un dia", "Mañana"], 
+                [172800, "Um dia", "Amanha"], 
                 [604800, "dias", 86400], 
                 [1209600, "Um dia", "Siguiente semana"], 
                 [2419200, "semanas", 604800], 
-                [4838400, "Un mes", "siguiente mes"], 
+                [4838400, "Um mes", "siguiente mes"], 
                 [29030400, "meses", 2419200], 
-                [58060800, "Un año", "siguiente año"], 
+                [58060800, "Um anho", "siguiente año"], 
                 [2903040000, "años", 29030400], 
-                [5806080000, "Un siglo", "siguiente siglo"], 
-                [58060800000, "siglos", 2903040000]
+                [5806080000, "Um seculo", "siguiente seculo"], 
+                [58060800000, "seculos", 2903040000]
             ];
             var seconds = (new Date - time) / 1000;
             var token = '', list_choice = 1;
             if (seconds < 0) {
                 seconds = Math.abs(seconds);
-                token = 'desde ahora';
+                token = 'desde agora';
                 list_choice = 1;
             }
             var i = 0, format;

@@ -10,7 +10,7 @@ arel.sceneReady(function()
 		var distanciaJesus = arel.Util.getDistanceBetweenLocationsInMeter(location, jesus);
 		var trinidad = new arel.LLA(-27.129306,-55.701333, 0);
 		var distanciaTrinidad = arel.Util.getDistanceBetweenLocationsInMeter(location, trinidad);
-		if(distanciaJesus < 5000 || distanciaTrinidad < 5000){
+		if(distanciaJesus < 2000 || distanciaTrinidad < 2000){
 			var newUrl = "http://www.academico.fiuni.edu.py/infor/poiruinas/getPoi2.php?password=password";
 			$.ajax({
 				type : "POST",
@@ -18,20 +18,15 @@ arel.sceneReady(function()
 				async: true,
 				success: function(datos){
 		        	var dataJson = eval(datos);
-		        	if(distanciaJesus < 5000){
-		        		for(var i in dataJson){
-		        			if(i < 34){
-		        				var poi = new arel.LLA(dataJson[i].LA,dataJson[i].LO, 0);
-			        			createPOIGeometry(dataJson[i].ID, dataJson[i].NOME, poi, dataJson[i].DESCRICAO, dataJson[i].IMAGEN);
-		        			}
-		    			}
-		    		} else {
-		    			for(var i in dataJson){
-		        			if(i >= 34){
-		        				var poi = new arel.LLA(dataJson[i].LA,dataJson[i].LO, 0);
-			        			createPOIGeometry(dataJson[i].ID, dataJson[i].NOME, poi, dataJson[i].DESCRICAO, dataJson[i].IMAGEN);
-		        			}
-		    			}
+		        	for(var i in dataJson){
+		        		var ciudad = dataJson[i].CIUDAD;
+		        		if(distanciaJesus < 2000 && ciudad.indexOf("jesus") != -1){
+		        			var poi = new arel.LLA(dataJson[i].LA,dataJson[i].LO, 0);
+	        				createPOIGeometry(dataJson[i].ID, dataJson[i].NOME, poi, dataJson[i].DESCRICAO, dataJson[i].IMAGEN);
+		    			} else {
+		        			var poi = new arel.LLA(dataJson[i].LA,dataJson[i].LO, 0);
+	        				createPOIGeometry(dataJson[i].ID, dataJson[i].NOME, poi, dataJson[i].DESCRICAO, dataJson[i].IMAGEN);
+		    			} 	
 		        	}
 		    	},
 				error: function (obj, error, objError){
@@ -83,17 +78,7 @@ function createPOIGeometry(id, title, location, description, imagen)
 					}
 		}); 
 	};
-    
-    
-    var popup = new arel.Popup(
-                               {
-                               buttons:{},
-                               description:description
-                               });
-    
-    newPOI.setPopup(popup);
-    
-	arel.Scene.addObject(newPOI);
+    arel.Scene.addObject(newPOI);
 }
 
 // Metodo para crear solo dos POIs y que establezca la ruta
@@ -109,25 +94,28 @@ function createPOIGeneric(id, title, location, description, imagen)
 	newPOI.setIcon(imagen);
 	newPOI.setVisibility(true,true,true);
 	newPOI.onTouchStarted = function(){ 
-		$.ClassyNotty({
-			title : title,
-			content : description,
-			img : imagen,
-			click : function() {
-						//arel.Media.speak(description);
+		noty({
+			layout: 'topRight',
+			theme: 'relax',
+			text: '<b>' + title + '</b></br>' + description,
+		    killer: true,
+		    closeWith: ['click'],
+			buttons: [
+				{addClass: 'btn btn-primary', text: 'Escutar', onClick: function() {
+						arel.Media.speak(description);
+					}
+				},
+				{addClass: 'btn btn-danger', text: 'Olhar mapa', onClick: function() {
+						$.noty.closeAll() ;
 						arel.Navigation.routeToObjectOnMap(newPOI);
 					}
-		}); 
+				},
+				{addClass: 'btn', text: 'Fechar', onClick: function() {
+						$.noty.closeAll() ;
+					}
+				}
+			]
+		});
 	};
-    
-    
-    var popup = new arel.Popup(
-                               {
-                               buttons:{},
-                               description:description
-                               });
-    
-    newPOI.setPopup(popup);
-    
-	arel.Scene.addObject(newPOI);
+    arel.Scene.addObject(newPOI);
 }

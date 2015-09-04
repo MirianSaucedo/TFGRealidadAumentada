@@ -194,6 +194,9 @@ function cambiarMenuPortugues(){
 	}
 	$("#comienza").html("Inicia");
 	$("#tu_recorrido").html("sua jornada");
+	$("#titulo_contacto").html("Contatenos");
+	$("#sub_titulo_contacto").html("Mande o seu message.");
+	$("#boton_contacto").val("Envie seu mesage");
 	$("#link").html('<a href="metaioSDKExampleAREL:///?startTutorialID=RecorridoPortugues" class="button style2">INICIA RA</a>');
 	paraMenu();
 }
@@ -218,6 +221,9 @@ function cambiarMenuEspanol(){
 	}
 	$("#comienza").html("Comienza");
 	$("#tu_recorrido").html("tu recorrido");
+	$("#titulo_contacto").html("Contactenos");
+	$("#sub_titulo_contacto").html("Envie su mensaje.");
+	$("#boton_contacto").val("Envie su mensage");
 	$("#link").html('<a href="metaioSDKExampleAREL:///?startTutorialID=RecorridoEspanhol" class="button style2">RECORRIDO RA</a>');
 	paraMenu();
 }
@@ -242,6 +248,9 @@ function cambiarMenuIngles(){
 	}
 	$("#comienza").html("Start");
 	$("#tu_recorrido").html("your ride");
+	$("#titulo_contacto").html("Contact us");
+	$("#sub_titulo_contacto").html("Send your message.");
+	$("#boton_contacto").val("Send your message");
 	$("#link").html('<a href="metaioSDKExampleAREL:///?startTutorialID=RecorridoIngles" class="button style2">RUN RA</a>');
 	paraMenu();
 }
@@ -292,11 +301,4 @@ function mostrarPaginaHistoriaTrinidad(){
 	document.getElementById("historiaJesus").style.display = 'none';
 	document.getElementById("historiaTrinidad").style.display = 'block';
 	$("#showmenu").click();
-}
-
-/**
- *
- */
-function redireccionarAMap(){
-	arel.Navigation.routeToLocationOnMap(-27.053866, -55.75255);
 }

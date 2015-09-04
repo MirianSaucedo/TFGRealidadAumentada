@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="css/simple-app.css">
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/pnotify.custom.min.css" />
+    <link rel="stylesheet" href="css/jquery.classynotty.css" />
 	
 	<script src="js/jquery.min.js"></script>
 	<script src="js/menu.js"></script>
@@ -26,7 +27,8 @@
 	<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 	<script src="js/main.js"></script>
 	<script src="js/function.js"></script> 
-	<script src="js/pnotify.custom.min.js"></script> 
+	<script src="js/jquery.classynotty.js"></script>
+	<script src="js/jquery.classynotty.min.js"></script>
 
 	<style type="text/css">
 		#principal li { 
@@ -98,19 +100,19 @@
 	<div id="contacto" style="display: none">
 		<article class="container box">
 			<header>
-				<h2>Nisl sed ultricies</h2>
-				<p>Diam dignissim lectus eu ornare volutpat orci.</p>
+				<h2 id="titulo_contacto">Contactenos</h2>
+				<p id="sub_titulo_contacto">Envie su mensaje.</p>
 			</header>
 			<form method="post" action="#">
 				<div class="row 50%">
-					<div class="6u 12u$(mobile)"><input type="text" class="text" name="name" placeholder="Name" /></div>
-					<div class="6u$ 12u$(mobile)"><input type="text" class="text" name="email" placeholder="Email" /></div>
+					<div class="6u 12u$(mobile)"><input type="text" class="text" id="nombre" placeholder="Nombre/Name/Nome" /></div>
+					<div class="6u$ 12u$(mobile)"><input type="text" class="text" id="email" placeholder="Email" /></div>
 					<div class="12u$">
-						<textarea name="message" placeholder="Message"></textarea>
+						<textarea id="mensaje" placeholder="Mensaje/Message/Mesage"></textarea>
 					</div>
 					<div class="12u$">
 						<ul class="actions">
-							<li><input type="button" value="Send Message" onclick="javascript:enviarMail2();"/></li>
+							<li><input type="button" id="boton_contacto" value="Enviar Mensaje" onclick="javascript:enviarMail();"/></li>
 						</ul>
 					</div>
 				</div>
