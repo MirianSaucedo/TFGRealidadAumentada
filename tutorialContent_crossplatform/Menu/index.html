@@ -4,7 +4,7 @@
 	<meta http-equiv="content-type" content="width=device-width, initial-scale=1; charset=UTF-8"/>
 	
 	<title>InfoTour App</title>
-	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css"/>
 	<link rel="stylesheet" href="css/idangerous.swiper.css">
 	<link rel="stylesheet" href="css/idangerous.swiper.scrollbar.css">
@@ -59,16 +59,16 @@
 
 </head>
 
-<body>
+<body BGCOLOR="#f5f1e0">
 	<div id="forMenu" ></div>
+	<div id="barra-superior">
+		<div id="titlemenu">
+			<a id="infotour">INFOTOUR</a>
+		</div>
+ 	</div>
+     	
 	<!-- Index -->
 	<div id="index">
-		<div id="barra-superior">
-			<div id="titlemenu">
-				<a id="infotour">INFOTOUR</a>
-			</div>
-     	</div>
-     	
      	<!-- Header -->
 		<section id="header">
 			<header>
@@ -76,7 +76,7 @@
 				<p id="tu_recorrido">Tu Recorrido </p>
 			</header>
 			<footer>
-				<div id="link"><a href="metaioSDKExampleAREL:///?startTutorialID=RecorridoEspanhol" class="button style2">RUINAS</a></div>
+				<div id="link"></div>
 			</footer>
 		</section> 
 		<section id="footer">
@@ -98,7 +98,7 @@
 
 	<!-- Contactos -->
 	<div id="contacto" style="display: none">
-		<article class="container box">
+		<article>
 			<header>
 				<h2 id="titulo_contacto">Contactenos</h2>
 				<p id="sub_titulo_contacto">Envie su mensaje.</p>
@@ -158,6 +158,37 @@
 								</p></div>
 							</div>
 							
+						</div>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Acerca de Nosotros -->
+	<div id="about" style="display:none">
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+				<div class="swiper-container">
+					<div class="swiper-wrapper">
+						<div class="page-inner">
+							<!-- Texto Acerca de nosotros -->
+							<h1 style="text-align: center;">Acerca de InfoTour</h1>
+							<div id="contenidoAbout"> <p style='text-align: justify;'>
+								InfoTour es una aplicación(app) que utiliza la tecnología de Realidad Aumentada 
+								con el cual se puede realizar el recorrido por las Reducciones Jesuíticas de
+								Jesus de Tavarangue y Santísima Trinidad.
+								
+								Solo debes de hacer click en el menu y click en "Recorrido RA" para empezar 
+								tu recorrido. Apunta la camara de tu celular y la aplicación te mostrará los 
+								puntos de interés(POI). Al hacer click en cualquier POI aparecerá una ventana 
+								emergente con la descripción del POI seleccionado. Al click en la ventana emergente 
+							    podrás escuchar la descripción.
+							    
+							    Para un mejor recorrido recuerda: activar tu giroscopio, activar tu GPS y contar 
+							    con conexión a internet a una buena velocidad, si no lo tienes debes de esperar 
+							    a que la app cargue todos los puntos en el radar antes de iniciar el recorrido.
+							</p> </div>
 						</div>	
 					</div>
 				</div>

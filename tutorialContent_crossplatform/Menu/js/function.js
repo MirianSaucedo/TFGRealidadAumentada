@@ -84,7 +84,7 @@ function enviarMail(){
 			  }); 
 		 }).fail(function(jqXHR, textStatus){
 		 	$.ClassyNotty({
-				title : "ATENTION",
+				title : "ATENCION",
 				content : "Campos invalidos </br> Invalid fields </br>  Os campos não som validos. </br> Error: " + jqXHR.responseText,
 				img : 'http://academico.fiuni.edu.py/infor/poiruinas/img/incorrecto.png',
 				showTime: false

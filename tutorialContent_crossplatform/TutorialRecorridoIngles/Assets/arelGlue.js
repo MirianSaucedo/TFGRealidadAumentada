@@ -11,31 +11,7 @@ arel.sceneReady(function()
 		var distanciaJesus = arel.Util.getDistanceBetweenLocationsInMeter(location, jesus);
 		var trinidad = new arel.LLA(-27.129306,-55.701333, 0);
 		var distanciaTrinidad = arel.Util.getDistanceBetweenLocationsInMeter(location, trinidad);
-		if(distanciaJesus < 2000 || distanciaTrinidad < 2000){
-			var newUrl = "http://www.academico.fiuni.edu.py/infor/poiruinas/getPoi2.php?password=password";
-			$.ajax({
-				type : "POST",
-				url : newUrl,
-				async: true,
-				success: function(datos){
-		        	var dataJson = eval(datos);
-		        	for(var i in dataJson){
-		        		var ciudad = dataJson[i].CIUDAD;
-		        		if(distanciaJesus < 2000 && ciudad.indexOf("jesus") != -1){
-		        			var poi = new arel.LLA(dataJson[i].LA,dataJson[i].LO, 0);
-	        				createPOIGeometry(dataJson[i].ID, dataJson[i].NAME, poi, dataJson[i].DESCRIPTION, dataJson[i].IMAGEN);
-		    			} else {
-		        			var poi = new arel.LLA(dataJson[i].LA,dataJson[i].LO, 0);
-	        				createPOIGeometry(dataJson[i].ID, dataJson[i].NAME, poi, dataJson[i].DESCRIPTION, dataJson[i].IMAGEN);
-		    			} 	
-		        	}
-		    	},
-				error: function (obj, error, objError){
-		   			alert("Error");
-				}
-			});	
-		} else {
-			var jesus_ing = ''
+		var jesus_ing = ''
 				+ '	The Ruins of Jesús from Tavarangue is one of the reductions that is still preserved in the tows founded '
 				+ '	by Jesuit Missionaries in their task of colonizing South America in the century XVII. It is located in '
 				+ '	the department of Itapúa - Paraguay, in the city of Jesus.'
@@ -47,11 +23,57 @@ arel.sceneReady(function()
 				+ '	for the expulsion of the Jesuits in 1768 for Carlos III from Spain.'
 				+ '	'
 				+ '	The Ruins of these Religious Missions reflect a way of life and education characterized for a singular style.';
-			var trinidad_ing = ''
+		var trinidad_ing = ''
 				+ '	This mission was founded in 1706 in the present Argentine territory, and then move in 1712 to the present '
 				+ '	place.'
 				+ '	Its founder was the Jesuit priest Juan of Anaya and the designer of the work was the Jesuit Brother '
 				+ '	Juan Bautista Primoli.';
+			
+		if(distanciaJesus < 1000){
+			var newUrl = "http://www.academico.fiuni.edu.py/infor/poiruinas/getPoi2.php?password=password";
+			$.ajax({
+				type : "POST",
+				url : newUrl,
+				async: true,
+				success: function(datos){
+		        	var dataJson = eval(datos);
+		        	var j = -1;
+		        	for(var i in dataJson){
+		        		var ciudad = dataJson[i].CIUDAD;
+		        		if(ciudad.indexOf("jesus") != -1){
+		        			var poi = new arel.LLA(dataJson[i].LA,dataJson[i].LO, 0);
+	        				createPOIGeometry(++j, dataJson[i].NAME, poi, dataJson[i].DESCRIPTION, dataJson[i].IMAGEN);
+		    			}  	
+		        	}
+		        	createPOIGeneric(++j, "Santisima Trinidad", trinidad, trinidad_ing, "http://www.academico.fiuni.edu.py/infor/poiruinas/img/39.jpg");
+		    	},
+				error: function (obj, error, objError){
+		   			alert("Error: Please, verify your internet conection");
+				}
+			});	
+		} else if(distanciaTrinidad < 1000){
+			var newUrl = "http://www.academico.fiuni.edu.py/infor/poiruinas/getPoi2.php?password=password";
+			$.ajax({
+				type : "POST",
+				url : newUrl,
+				async: true,
+				success: function(datos){
+		        	var dataJson = eval(datos);
+		        	var j = -1;
+		        	for(var i in dataJson){
+		        		var ciudad = dataJson[i].CIUDAD;
+		        		if(ciudad.indexOf("trinidad") != -1){
+		        			var poi = new arel.LLA(dataJson[i].LA,dataJson[i].LO, 0);
+	        				createPOIGeometry(++j, dataJson[i].NAME, poi, dataJson[i].DESCRIPTION, dataJson[i].IMAGEN);
+		    			}  	
+		        	}
+		        	createPOIGeneric(++j, "Jesus de Tavarangue", jesus, jesus_ing, "http://www.academico.fiuni.edu.py/infor/poiruinas/img/11.jpg");
+				},
+				error: function (obj, error, objError){
+		   			alert("Error: Please, verify your internet conection");
+				}
+			});	
+		} else {
 			createPOIGeneric(1, "Jesus de Tavarangue", jesus, jesus_ing, "http://www.academico.fiuni.edu.py/infor/poiruinas/img/11.jpg");
 			createPOIGeneric(2, "Santisima Trinidad", trinidad, trinidad_ing, "http://www.academico.fiuni.edu.py/infor/poiruinas/img/39.jpg");
 		}
@@ -63,7 +85,7 @@ function createPOIGeometry(id, title, location, description, imagen)
 {
 	var newPOI = new arel.Object.POI();
 	newPOI.setMinDistance(1);
-	newPOI.setMaxDistance(50);
+	newPOI.setMaxDistance(150);
 	newPOI.setID(id);
 	newPOI.setTitle(title);
 	newPOI.setLocation(location);
