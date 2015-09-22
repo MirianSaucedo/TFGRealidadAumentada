@@ -14,10 +14,10 @@ window.onload = function() {
 	mostrarImagen();
 	//verificamos si esta conectado a internet para establecer las variables
 	if(checkNetConnection() == true) {
-	    recorrido_esp = '<a href="metaioSDKAREL:///?startTutorialID=Espanhol" onclick="openPage(this.href);return false"><i class="fa fa-info-circle"></i>Recorrido RA</a>';
-		recorrido_por = '<a href="metaioSDKAREL:///?startTutorialID=Portugues" onclick="openPage(this.href);return false"><i class="fa fa-info-circle"></i>Executar RA</a>';
-		recorrido_ing = '<a href="metaioSDKAREL:///?startTutorialID=Ingles" onclick="openPage(this.href);return false"><i class="fa fa-info-circle"></i>Run RA</a>';
-		$("#link").html('<a href="metaioSDKAREL:///?startTutorialID=Espanhol" class="button style2">INICIAR RECORRIDO</a>');
+	    recorrido_esp = '<a href="metaioSDKAREL:///?startRecorridoID=Espanhol" onclick="openPage(this.href);return false"><i class="fa fa-info-circle"></i>Recorrido RA</a>';
+		recorrido_por = '<a href="metaioSDKAREL:///?startRecorridoID=Portugues" onclick="openPage(this.href);return false"><i class="fa fa-info-circle"></i>Executar RA</a>';
+		recorrido_ing = '<a href="metaioSDKAREL:///?startRecorridoID=Ingles" onclick="openPage(this.href);return false"><i class="fa fa-info-circle"></i>Run RA</a>';
+		$("#link").html('<a href="metaioSDKAREL:///?startRecorridoID=Espanhol" class="button style2">INICIAR RECORRIDO</a>');
 		conexion = true;
 	} else {
 		$("#link").html('<a href="#" onclick="mostrarAlert(false);return false;" class="button style2">INICIAR RECORRIDO</a>');
@@ -280,7 +280,7 @@ function cambiarMenuPortugues(){
 	$("#boton_contacto").val("Envie seu mesage");
 	$("#copyright").html("&copy; Todos os direitos reservados");
 	if(conexion){
-		$("#link").html('<a href="metaioSDKAREL:///?startTutorialID=Portugues" class="button style2">INICIAR TOUR</a>');
+		$("#link").html('<a href="metaioSDKAREL:///?startRecorridoID=Portugues" class="button style2">INICIAR TOUR</a>');
 	} else {
 		$("#link").html('<a href="#" onclick="mostrarAlert(false);return false;" class="button style2">INICIAR TOUR</a>');
 	}
@@ -313,7 +313,7 @@ function cambiarMenuEspanol(){
 	$("#boton_contacto").val("Envie su mensage");
 	$("#copyright").html("&copy; Todos los derechos reservados");
 	if(conexion){
-		$("#link").html('<a href="metaioSDKAREL:///?startTutorialID=Espanhol" class="button style2">INICIAR RECORRIDO</a>');
+		$("#link").html('<a href="metaioSDKAREL:///?startRecorridoID=Espanhol" class="button style2">INICIAR RECORRIDO</a>');
 	} else {
 		$("#link").html('<a href="#" onclick="mostrarAlert(false);return false;" class="button style2">INICIAR RECORRIDO</a>');
 	}
@@ -346,7 +346,7 @@ function cambiarMenuIngles(){
 	$("#boton_contacto").val("Send your message");
 	$("#copyright").html("&copy; All rights reserved");
 	if(conexion){
-		$("#link").html('<a href="metaioSDKAREL:///?startTutorialID=Ingles" class="button style2">START TOUR</a>');
+		$("#link").html('<a href="metaioSDKAREL:///?startRecorridoID=Ingles" class="button style2">START TOUR</a>');
 	} else {
 		$("#link").html('<a href="#" onclick="mostrarAlert(false);return false;" class="button style2">START TOUR</a>');
 	}

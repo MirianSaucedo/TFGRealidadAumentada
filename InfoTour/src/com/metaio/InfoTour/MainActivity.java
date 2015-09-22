@@ -216,14 +216,14 @@ public class MainActivity extends Activity
 			}
 			
 			
-			final String tutorialId = url.substring(url.lastIndexOf("=") + 1);
-			MetaioDebug.log("Recorrido ID detectectado: "+tutorialId);
+			final String recorridoId = url.substring(url.lastIndexOf("=") + 1);
+			MetaioDebug.log("Recorrido ID detectectado: "+recorridoId);
 			
 			if (url.toLowerCase(Locale.US).startsWith("metaiosdk://"))
 			{
 				try 
 				{
-					final Class<?> activity = Class.forName(getPackageName()+"."+tutorialId);
+					final Class<?> activity = Class.forName(getPackageName()+"."+recorridoId);
 					mLaunchingRecorrido = true;
 					startActivity(new Intent(getApplicationContext(), activity));
 				} 
@@ -234,11 +234,11 @@ public class MainActivity extends Activity
 			}
 			else if (url.toLowerCase(Locale.US).startsWith("metaiosdkarel://"))
 			{
-				if (tutorialId != null)
+				if (recorridoId != null)
 				{
 					
 					final String arelConfigFile = "arelConfig.xml";
-					final String arelConfigFilePath = AssetsManager.getAssetPath(getApplicationContext(), "Recorrido"+tutorialId+"/"+arelConfigFile);
+					final String arelConfigFilePath = AssetsManager.getAssetPath(getApplicationContext(), "Recorrido"+recorridoId+"/"+arelConfigFile);
 					MetaioDebug.log("arelConfig pasado al intent: "+arelConfigFilePath);
 					Intent intent = new Intent(getApplicationContext(), ARELViewActivity.class);
 					intent.putExtra(getPackageName()+".AREL_SCENE", arelConfigFilePath);
