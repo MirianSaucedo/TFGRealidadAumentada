@@ -1,4 +1,4 @@
-// Copyright 2007-2014 metaio GmbH. All rights reserved.
+// Copyright 2007-2014 Metaio GmbH. All rights reserved.
 package com.metaio.sdk;
 
 import java.io.File;
@@ -31,7 +31,10 @@ public class ARELActivity extends ARViewActivity
 {
 
 	/**
-	 * Intent extra key for the AREL scene file path. Append this to getPackageName() when using.
+	 * Intent extra key for the AREL scene file path (File object). Append this to getPackageName(),
+	 * e.g.
+	 * <p>
+	 * <code>intent.putExtra(getPackageName()+ARELActivity.INTENT_EXTRA_AREL_SCENE, filepath);</code>
 	 */
 	public static final String INTENT_EXTRA_AREL_SCENE = ".AREL_SCENE";
 
@@ -165,7 +168,7 @@ public class ARELActivity extends ARViewActivity
 	/**
 	 * Get AREL interpreter callback handler. Note that the default interpreter calls
 	 * {@link ARELActivity#loadARELScene()} in {@link IMetaioSDKCallback#onSDKReady()} callback.
-	 * 
+	 *
 	 * @return instance of class that implements IARELInterpreterCallback
 	 */
 	protected IARELInterpreterCallback getARELInterpreterCallback()
@@ -234,10 +237,11 @@ public class ARELActivity extends ARViewActivity
 			public void run()
 			{
 
-				final String filepath = getIntent().getStringExtra(getPackageName() + INTENT_EXTRA_AREL_SCENE);
+				final File filepath =
+						(File)getIntent().getSerializableExtra(getPackageName() + INTENT_EXTRA_AREL_SCENE);
 				if (filepath != null)
 				{
-					MetaioDebug.log("Loading AREL file: " + filepath);
+					MetaioDebug.log("Loading AREL file: " + filepath.getPath());
 					mARELInterpreter.loadARELFile(filepath);
 				}
 				else
@@ -262,27 +266,39 @@ public class ARELActivity extends ARViewActivity
 		MetaioDebug.log("MetaioSDKCallbackHandler.onGeometryTouched: " + geometry);
 	}
 
-	public void onScreenshot(Bitmap bitmap, boolean saveToGalleryWithoutDialog)
+	/**
+	 * Called when share screen shot is requested
+	 * 
+	 * @param bitmap Screen shot
+	 * @param saveToGalleryWithoutDialog true if screen should be directly saved to gallery
+	 * @return true if handled
+	 */
+	protected boolean onScreenshot(Bitmap bitmap, boolean saveToGalleryWithoutDialog)
 	{
-		// Write to external storage so the file is accessible by other applications
-		final String cacheDirPath = new File(getExternalCacheDir(), "screenshots").getAbsolutePath();
-		final String filename = "screenshot-" + DateFormat.format("yyyy-MM-dd-hh-mm-ss", new Date()) + ".jpg";
-
 		try
 		{
-			final boolean result =
-					MetaioCloudUtils.writeToFile(bitmap, CompressFormat.JPEG, 100, cacheDirPath, filename, false);
 
-			if (result)
+			// Set your own name
+			final String saveScreenshotAs = null;
+
+			if (!saveToGalleryWithoutDialog)
 			{
-				if (!saveToGalleryWithoutDialog)
+				// Write to external storage so the file is accessible by other applications
+				final String cacheDirPath = new File(getExternalCacheDir(), "screenshots").getAbsolutePath();
+				final String filename = "screenshot-" + DateFormat.format("yyyy-MM-dd-hh-mm-ss", new Date()) + ".jpg";
+				final boolean result =
+						MetaioCloudUtils.writeToFile(bitmap, CompressFormat.JPEG, 100, cacheDirPath, filename, false);
+
+				if (result)
 				{
+
 					// Show share view
 					final String path = new File(cacheDirPath, filename).getAbsolutePath();
 
 					ShareScreenshotFragment fragment =
 							ShareScreenshotFragment.newInstance(path, getString(R.string.LBL_SHARE_SCREENSHOT),
-									getString(R.string.BTN_SAVE_SCREENSHOT), getString(R.string.LBL_SHARE_SCREENSHOT));
+									getString(R.string.BTN_SAVE_SCREENSHOT), getString(R.string.LBL_SHARE_SCREENSHOT),
+									saveScreenshotAs);
 
 					// optionally, set a notification to display to the user
 					fragment.setNotification(R.drawable.icon_placeholder, getString(R.string.MSGI_IMAGE_SAVED),
@@ -291,8 +307,8 @@ public class ARELActivity extends ARViewActivity
 					// optionally, set some text to the intent that will be used to share the
 					// screenshot
 					Intent sharingIntent = new Intent();
-					sharingIntent.putExtra(Intent.EXTRA_TEXT, "Check this screenshot! #junaio");
-					sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "My cool screenshot made with my cool app #junaio");
+					sharingIntent.putExtra(Intent.EXTRA_TEXT, "Check this screenshot!");
+					sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "My cool screenshot made with my cool app");
 
 					fragment.setSharingIntent(sharingIntent);
 
@@ -300,26 +316,30 @@ public class ARELActivity extends ARViewActivity
 				}
 				else
 				{
-					// Save the screenshot to the gallery directly
-					MetaioCloudUtils.saveScreenshot(bitmap, getApplicationContext());
+					throw new Exception("onScreenshot: Failed to write screenshot to file");
 				}
 			}
 			else
 			{
-				MetaioDebug.log(Log.ERROR, "onScreenshot: Failed to write screenshot to file");
+				// Save the screenshot to the gallery directly
+				ShareScreenshotFragment.saveScreenShot(bitmap, this, true, R.drawable.icon_placeholder,
+						getString(R.string.MSGI_IMAGE_SAVED), getString(R.string.BTN_VIEW_IMAGE), saveScreenshotAs);
 			}
+
 		}
 		catch (Exception e)
 		{
 			MetaioDebug.log(Log.ERROR, "onScreenshot: Exception when saving screenshot");
 			MetaioDebug.printStackTrace(Log.ERROR, e);
 		}
+
+		return true;
 	}
 
 	/**
 	 * Default implementation of IARELInterpreterCallback
 	 */
-	public class ARELInterpreterCallback extends IARELInterpreterCallback
+	class ARELInterpreterCallback extends IARELInterpreterCallback
 	{
 		@Override
 		public void onSDKReady()
@@ -328,11 +348,14 @@ public class ARELActivity extends ARViewActivity
 		}
 
 		@Override
-		public void shareScreenshot(ByteBuffer image, boolean saveToGalleryWithoutDialog)
+		public boolean shareScreenshot(ByteBuffer image, boolean saveToGalleryWithoutDialog)
 		{
 			byte[] bytearray = image.getBuffer();
 			Bitmap bitmap = BitmapFactory.decodeByteArray(bytearray, 0, bytearray.length);
-			ARELActivity.this.onScreenshot(bitmap, saveToGalleryWithoutDialog);
+			final boolean result = onScreenshot(bitmap, saveToGalleryWithoutDialog);
+			bitmap.recycle();
+			bitmap = null;
+			return result;
 		}
 	}
 }

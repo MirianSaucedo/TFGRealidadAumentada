@@ -1,28 +1,11 @@
 //variable usada para saber en que idioma esta
 var idioma = "espanol";
 
-//variables para agregar al menu si esta online o offline
-var recorrido_esp = '<a href="#" onclick="mostrarAlert(true);return false;"><i class="fa fa-info-circle"></i>Recorrido RA</a>';
-var recorrido_por = '<a href="#" onclick="mostrarAlert(true);return false;"><i class="fa fa-info-circle"></i>Executar RA</a>';
-var recorrido_ing = '<a href="#" onclick="mostrarAlert(true);return false;"><i class="fa fa-info-circle"></i>Run RA</a>';
-var conexion = false;
-
 /**
  * funcion que realiza al cargar la pagina
  */
 window.onload = function() {
 	mostrarImagen();
-	//verificamos si esta conectado a internet para establecer las variables
-	if(checkNetConnection() == true) {
-	    recorrido_esp = '<a href="metaioSDKAREL:///?startRecorridoID=Espanhol" onclick="openPage(this.href);return false"><i class="fa fa-info-circle"></i>Recorrido RA</a>';
-		recorrido_por = '<a href="metaioSDKAREL:///?startRecorridoID=Portugues" onclick="openPage(this.href);return false"><i class="fa fa-info-circle"></i>Executar RA</a>';
-		recorrido_ing = '<a href="metaioSDKAREL:///?startRecorridoID=Ingles" onclick="openPage(this.href);return false"><i class="fa fa-info-circle"></i>Run RA</a>';
-		$("#link").html('<a href="metaioSDKAREL:///?startRecorridoID=Espanhol" class="button style2">INICIAR RECORRIDO</a>');
-		conexion = true;
-	} else {
-		$("#link").html('<a href="#" onclick="mostrarAlert(false);return false;" class="button style2">INICIAR RECORRIDO</a>');
-	}
-	
 	
 	//primero cargarmos el div que contiene el menu con este metodo
 	if(idioma == "portugues"){
@@ -41,7 +24,7 @@ window.onload = function() {
 function varMenuEspanol(){
 	var espanol  = '' 
 	+ '<nav id="menu" class="left">'
-	+ '  <ul> '
+	+ ' <ul> '
 	+ '	<li><a href="#" onclick="mostrarPaginaIndex()"><i class="fa fa-home"></i>Inicio</a></li> '
 	+ '	<li><a href="#"><i class="fa fa-info-circle"></i>Historia <i class="fa fa-caret-down"></i></a> '
 	+ '		<ul> '
@@ -49,7 +32,7 @@ function varMenuEspanol(){
 	+ '			<li><a href="#" onclick="mostrarPaginaHistoriaTrinidad()">Trinidad del Paraná</a></li> '
 	+ '	  </ul> '
 	+ '	</li> '
-	+ '	<li>' + recorrido_esp + '</li> '
+	+ '	<li><a href="#" onclick="irA(true);return false;"><i class="fa fa-info-circle"></i>Recorrido RA</a></li> '
 	+ '	<li> <a href="#"><i class="fa fa-laptop"></i>Cambiar Idioma <i class="fa fa-caret-down"></i></a> '
 	+ '	   <ul> '
 	+ '		<li><a href="#" onclick="cambiarMenuIngles()">Inglés</a></li> '
@@ -57,8 +40,9 @@ function varMenuEspanol(){
 	+ '	  </ul> '
 	+ '	</li> '
 	+ '	<li><a href="#" onclick="mostrarPaginaContacto()"><i class="fa fa-phone"></i>Contactános</a></li> '
-	+ '	<li><a href="#" onclick="mostrarPaginaAbout()"><i class="fa fa-info-circle"></i>Instrucciones</a></li> '
-	+ '  </ul> '
+	+ '	<li><a href="#" onclick="mostrarPaginaInstrucciones()"><i class="fa fa-info-circle"></i>Instrucciones</a></li> '
+	+ '	<li><a href="#" onclick="mostrarAcercaDe()"><i class="fa fa-pencil-square-o"></i>Acerca de InfoTour</a></li> '
+	+ ' </ul> '
 	+ '  <a href="#" id="showmenu"> <i class="fa fa-align-justify"></i> </a>  '
 	+ '</nav> ';
 	return espanol;
@@ -67,7 +51,7 @@ function varMenuEspanol(){
 function varMenuIngles(){
 	var ingles = '' 
 	+ '<nav id="menu" class="left">'
-	+ '  <ul> '
+	+ ' <ul> '
 	+ '	<li><a href="#" onclick="mostrarPaginaIndex()"><i class="fa fa-home"></i>Home</a></li> '
 	+ '	<li><a href="#"><i class="fa fa-info-circle"></i>History<i class="fa fa-caret-down"></i></a> '
 	+ '		<ul> '
@@ -75,7 +59,7 @@ function varMenuIngles(){
 	+ '			<li><a href="#" onclick="mostrarPaginaHistoriaTrinidad()">Trinidad del Paraná</a></li> '
 	+ '	  </ul> '
 	+ '	</li> '
-	+ '	<li>' + recorrido_ing + '</li> '
+	+ '	<li><a href="#" onclick="irA(true);return false;"><i class="fa fa-info-circle"></i>Run RA</a></li> '
 	+ '	<li> <a href="#"><i class="fa fa-laptop"></i>Change language <i class="fa fa-caret-down"></i></a> '
 	+ '	   <ul> '
 	+ '		<li><a href="#" onclick="cambiarMenuEspanol()">Spanish</a></li> '
@@ -83,8 +67,9 @@ function varMenuIngles(){
 	+ '	  </ul> '
 	+ '	</li> '
 	+ '	<li><a href="#" onclick="mostrarPaginaContacto()"><i class="fa fa-phone"></i>Contact</a></li> '
-	+ '	<li><a href="#" onclick="mostrarPaginaAbout()"><i class="fa fa-info-circle"></i>Instructions</a></li> '
-	+ '  </ul> '
+	+ '	<li><a href="#" onclick="mostrarPaginaInstrucciones()"><i class="fa fa-info-circle"></i>Instructions</a></li> '
+	+ '	<li><a href="#" onclick="mostrarAcercaDe()"><i class="fa fa-pencil-square-o"></i>About InfoTour</a></li> '
+	+ ' </ul> '
 	+ '  <a href="#" id="showmenu"> <i class="fa fa-align-justify"></i> </a>  '
 	+ '</nav> ';
 	return ingles;
@@ -93,7 +78,7 @@ function varMenuIngles(){
 function varMenuPortugues(){
 	var portugues  = '' 
 	+ '<nav id="menu" class="left">'
-	+ '  <ul> '
+	+ ' <ul> '
 	+ '	<li><a href="#" onclick="mostrarPaginaIndex()"><i class="fa fa-home"></i>Principal</a></li> '
 	+ '	<li><a href="#"><i class="fa fa-info-circle"></i>História <i class="fa fa-caret-down"></i></a> '
 	+ '		<ul> '
@@ -101,7 +86,7 @@ function varMenuPortugues(){
 	+ '			<li><a href="#" onclick="mostrarPaginaHistoriaTrinidad()">Trinidad del Paraná</a></li> '
 	+ '	  </ul> '
 	+ '	</li> '
-	+ '	<li>' + recorrido_por + '</li> '
+	+ '	<li><a href="#" onclick="irA(true);return false;"><i class="fa fa-info-circle"></i>Executar RA</a></li> '
 	+ '	<li> <a href="#"><i class="fa fa-laptop"></i>Mudar Língua <i class="fa fa-caret-down"></i></a> '
 	+ '	   <ul> '
 	+ '		<li><a href="#" onclick="cambiarMenuEspanol()">Espanhol</a></li> '
@@ -109,8 +94,9 @@ function varMenuPortugues(){
 	+ '	  </ul> '
 	+ '	</li> '
 	+ '	<li><a href="#" onclick="mostrarPaginaContacto()"><i class="fa fa-phone"></i>Contato</a></li> '
-	+ '	<li><a href="#" onclick="mostrarPaginaAbout()"><i class="fa fa-info-circle"></i>Instruções</a></li> '
-	+ '  </ul> '
+	+ '	<li><a href="#" onclick="mostrarPaginaInstrucciones()"><i class="fa fa-info-circle"></i>Instruções</a></li> '
+	+ '	<li><a href="#" onclick="mostrarAcercaDe()"><i class="fa fa-pencil-square-o"></i>Sobre InfoTour</a></li> '
+	+ ' </ul> '
 	+ '  <a href="#" id="showmenu"> <i class="fa fa-align-justify"></i> </a>  '
 	+ '</nav> ';
 	return portugues;
@@ -182,12 +168,8 @@ var trinidad_por = ''
 					+ '	O seu fundador foi o sacerdote jesuíta Juan de Anaya e o desdenhador da obra foi o irmão jesuíta Juan Bautista Primoli.'
 					+ '</p>';
 					
-var contenidoAbout_esp = ''
+var contenido_instrucciones_esp = ''
 					+ '<p style="text-align: justify;">'
-					+ 'InfoTour es una aplicación(app) que utiliza la tecnología de Realidad Aumentada '
-					+ 'con el cual se puede realizar el recorrido por las Reducciones Jesuíticas de'
-					+ 'Jesus de Tavarangüe y Santísima Trinidad.'
-					+ ''
 					+ 'Solo debes de hacer click en el menu y click en "Recorrido RA" para empezar '
 					+ 'tu recorrido. Apunta la camara de tu celular y la aplicación te mostrará los '
 					+ 'puntos de interés(POI). Al hacer click en cualquier POI aparecerá una ventana '
@@ -198,12 +180,8 @@ var contenidoAbout_esp = ''
 					+ 'con conexión a internet a una buena velocidad, si no lo tienes debes de esperar '
 					+ 'a que la app cargue todos los puntos en el radar antes de iniciar el recorrido.'
 					+ '</p>';
-var contenidoAbout_ing = ''
+var contenido_instrucciones_ing = ''
 					+ '<p style="text-align: justify;">'
-					+ 'InfoTour is an application (app) that uses Augmented Reality technology '
-					+ 'with which you can make the tour of the Jesuit Reductions '
-					+ 'Jesus of Tavarangue and Holy Trinity. '
-					+ ''
 					+ 'You just have to click on the menu and click on "Run RA" to start '
 					+ 'your tour. He points the camera of your phone and the application will show the '
 					+ 'Points of Interest (POI). Clicking on any POI a window appears '
@@ -213,12 +191,8 @@ var contenidoAbout_ing = ''
 					+ 'For best route recalls activate your gyroscope, GPS and activate your count '
 					+ 'internet with a good speed, you should wait to load all the points on the radar before starting the tour. '
 					+ '</p>';
-var contenidoAbout_por = ''
+var contenido_instrucciones_por = ''
 					+ '<p style="text-align: justify;">'
-					+ 'InfoTour é uma aplicação (app) que utiliza a tecnologia de Realidade Aumentada '
-					+ 'com o qual você pode fazer o passeio das Reduções Jesuíticas '
-					+ 'Jesus de Tavarangue e da Santíssima Trindade. '
-					+ ''
 					+ 'Você apenas tem que clicar no menu e clique em "Executar RA" para iniciar '
 					+ 'sua turnê. Ele aponta a câmera do seu telefone eo aplicativo irá mostrar o '
 					+ 'Pontos de Interesse (POI). Clicando em qualquer POI aparece uma janela '
@@ -273,17 +247,14 @@ function cambiarMenuPortugues(){
 		contenidoTrinidad.innerHTML = trinidad_por;
 	}
 	$("#comienza").html("Inicia");
-	$("#contenidoAbout").html(contenidoAbout_por);
+	$("#contenidoIntrucciones").html(contenido_instrucciones_por);
 	$("#tu_recorrido").html("sua jornada");
 	$("#titulo_contacto").html("Contatenos");
 	$("#sub_titulo_contacto").html("Mande o seu message.");
 	$("#boton_contacto").val("Envie seu mesage");
 	$("#copyright").html("&copy; Todos os direitos reservados");
-	if(conexion){
-		$("#link").html('<a href="metaioSDKAREL:///?startRecorridoID=Portugues" class="button style2">INICIAR TOUR</a>');
-	} else {
-		$("#link").html('<a href="#" onclick="mostrarAlert(false);return false;" class="button style2">INICIAR TOUR</a>');
-	}
+	$("#encuesta").html('<a href="http://es.surveymonkey.com/r/7WWHDPD"><i class="fa fa-pie-chart"></i> &nbsp; Conclui o enquete de InfoTour</a>');
+	$("#link").html('<a href="#" onclick="irA(false);return false;" class="button style2">INICIAR TOUR</a>');
 	paraMenu();
 }
 
@@ -306,17 +277,14 @@ function cambiarMenuEspanol(){
 		contenidoTrinidad.innerHTML = trinidad_esp;
 	}
 	$("#comienza").html("Comienza");
-	$("#contenidoAbout").html(contenidoAbout_esp);
+	$("#contenidoIntrucciones").html(contenido_instrucciones_esp);
 	$("#tu_recorrido").html("tu recorrido");
 	$("#titulo_contacto").html("Contactenos");
 	$("#sub_titulo_contacto").html("Envie su mensaje.");
 	$("#boton_contacto").val("Envie su mensage");
 	$("#copyright").html("&copy; Todos los derechos reservados");
-	if(conexion){
-		$("#link").html('<a href="metaioSDKAREL:///?startRecorridoID=Espanhol" class="button style2">INICIAR RECORRIDO</a>');
-	} else {
-		$("#link").html('<a href="#" onclick="mostrarAlert(false);return false;" class="button style2">INICIAR RECORRIDO</a>');
-	}
+	$("#encuesta").html('<a href="http://es.surveymonkey.com/r/7WWHDPD"><i class="fa fa-pie-chart"></i> &nbsp; Complete la encuesta sobre InfoTour</a>');
+	$("#link").html('<a href="#" onclick="irA(false);return false;" class="button style2">INICIAR RECORRIDO</a>');
 	paraMenu();
 }
 
@@ -339,17 +307,14 @@ function cambiarMenuIngles(){
 		contenidoTrinidad.innerHTML = trinidad_ing;
 	}
 	$("#comienza").html("Start");
-	$("#contenidoAbout").html(contenidoAbout_ing);
+	$("#contenidoIntrucciones").html(contenido_instrucciones_ing);
 	$("#tu_recorrido").html("your ride");
 	$("#titulo_contacto").html("Contact us");
 	$("#sub_titulo_contacto").html("Send your message.");
 	$("#boton_contacto").val("Send your message");
 	$("#copyright").html("&copy; All rights reserved");
-	if(conexion){
-		$("#link").html('<a href="metaioSDKAREL:///?startRecorridoID=Ingles" class="button style2">START TOUR</a>');
-	} else {
-		$("#link").html('<a href="#" onclick="mostrarAlert(false);return false;" class="button style2">START TOUR</a>');
-	}
+	$("#encuesta").html('<a href="http://es.surveymonkey.com/r/7WWHDPD"><i class="fa fa-pie-chart"></i> &nbsp; Complete the survey about InfoTour</a>');
+	$("#link").html('<a href="#" onclick="irA(false);return false;" class="button style2">START TOUR</a>');
 	paraMenu();
 }
 
@@ -362,7 +327,7 @@ function mostrarPaginaContacto(){
 	document.getElementById("historias").style.display = 'none';
 	document.getElementById("historiaJesus").style.display = 'none';
 	document.getElementById("historiaTrinidad").style.display = 'none';
-	document.getElementById("about").style.display = 'none';
+	document.getElementById("instrucciones").style.display = 'none';
 	$("#showmenu").click();
 }
 
@@ -375,7 +340,7 @@ function mostrarPaginaIndex(){
 	document.getElementById("historias").style.display = 'none';
 	document.getElementById("historiaJesus").style.display = 'none';
 	document.getElementById("historiaTrinidad").style.display = 'none';
-	document.getElementById("about").style.display = 'none';
+	document.getElementById("instrucciones").style.display = 'none';
 	$("#showmenu").click();
 }
 
@@ -388,7 +353,7 @@ function mostrarPaginaHistoriaJesus(){
 	document.getElementById("historias").style.display = 'block';
 	document.getElementById("historiaJesus").style.display = 'block';
 	document.getElementById("historiaTrinidad").style.display = 'none';
-	document.getElementById("about").style.display = 'none';
+	document.getElementById("instrucciones").style.display = 'none';
 	$("#showmenu").click();
 }
 
@@ -401,54 +366,124 @@ function mostrarPaginaHistoriaTrinidad(){
 	document.getElementById("historias").style.display = 'block';
 	document.getElementById("historiaJesus").style.display = 'none';
 	document.getElementById("historiaTrinidad").style.display = 'block';
-	document.getElementById("about").style.display = 'none';
+	document.getElementById("instrucciones").style.display = 'none';
 	$("#showmenu").click();
 }
 
 /**
  * funcion para mostrar el div de instrucciones y ocultar el resto de los divs
  */
-function mostrarPaginaAbout(){
+function mostrarPaginaInstrucciones(){
 	document.getElementById("index").style.display = 'none';
 	document.getElementById("contacto").style.display = 'none';
 	document.getElementById("historias").style.display = 'none';
 	document.getElementById("historiaJesus").style.display = 'none';
 	document.getElementById("historiaTrinidad").style.display = 'none';
-	document.getElementById("about").style.display = 'block';
+	document.getElementById("instrucciones").style.display = 'block';
 	$("#showmenu").click();
 }
 
 /**
- * funcion para comprobar coneccion a internet sacada de https://subinsb.com/how-to-check-if-internet-connection-exists-in-jquery-javascript
+ * funcion utilizada para redirigir la p�gina de acuerdo a si existe o no conexion a internet
+ */
+function irA(hacerclick){
+ 	var mensaje = "Cargando...";
+ 	if(idioma == "ingles"){
+ 		mensaje = "Loading...";
+ 	} else if(idioma == "portugues"){
+ 		mensaje = "Espere...";
+ 	}
+	$.isLoading({ text: mensaje });
+	if(hacerclick){
+ 		$("#showmenu").click(); 
+ 	}
+	var conn = checkNetConnection();
+	setTimeout( function(){ 
+        $.isLoading( "hide" );
+    }, 2000 );
+    //verificamos si esta conectado a internet para establecer las variables
+	if(conn == true) {
+		if(idioma == "ingles"){
+			openPage('metaioSDKAREL:///?startRecorridoID=Ingles');
+		} else if(idioma == "portugues"){
+			openPage('metaioSDKAREL:///?startRecorridoID=Portugues');
+		} else {
+	    	openPage('metaioSDKAREL:///?startRecorridoID=Espanhol');
+		}
+	} else {
+		mostrarAlert();
+	}
+}
+
+/**
+ * funcion para comprobar coneccion a internet sacada de https://gist.github.com/SoldierCorp/5887679
  */
  function checkNetConnection(){
-	 jQuery.ajaxSetup({async:false});
-	 re="";
-	 r=Math.round(Math.random() * 10000);
-	 $.get("http://www.academico.fiuni.edu.py/infor/poiruinas/img/11.jpg",{subins:r},function(d){
-	 	re=true;
-	 }).error(function(){
-	 	re=false;
-	 });
-	 return re;
+	 var conn = false;
+	 $.ajax({
+  			url: 'http://www.academico.fiuni.edu.py/infor/poiruinas/process.php',
+  			async: false,
+  			data: {'tag' : 'connection'}
+  	 })
+  	 .fail(function() { conn = false; })
+  	 .done(function() { conn = true; });
+  	 return conn;
 }
 
 /**
  * Funcion para mostrar cuando no existe conexion a internet
  */
- function mostrarAlert(hacerclick){
+ function mostrarAlert(){
  	var mensaje = "No tienes conexión a internet </br> Cierra la aplicación, conectate a internet y vuelve a abrir InfoTour.";
  	if(idioma == "ingles"){
  		mensaje = "Internet conection is down</br>Please, close the app, verify your conection and re-open InfoTour.";
  	} else if(idioma == "portugues"){
  		mensaje = "Vocé não tem coneção ao internet</br>Fecha a aplicação, verifique sua coneção e depois abra denovo InfoTour.";
  	}
- 	if(hacerclick){
- 		$("#showmenu").click(); 
+ 	
+ 	$.magnificPopup.open({
+	  items: {
+	    src: '<div class="white-popup">' + mensaje + '</div>',
+	    type: 'inline'
+	  },
+	  closeBtnInside: true
+	});
+ }
+ 
+ /**
+ * Funcion para mostrar un alert con las informaciones de infotour
+ */
+ function mostrarAcercaDe(){
+ 	$("#showmenu").click();
+ 	var mensaje = ''
+ 				+ 'InfoTour es una aplicación(app) que utiliza la tecnología de Realidad Aumentada '
+				+ 'con el cual se puede realizar el recorrido por las Reducciones Jesuíticas de '
+				+ 'Jesus de Tavarangue y Santísima Trinidad. </br></br>'
+				+ 'Esta app fue desarrollada usando el SDK de Metaio. </br>'
+				+ 'Para saber los permisos otorgados por metaio consulte '	
+				+ '<a href="http://www.metaio.com/legal.html">http://www.metaio.com/legal.html</a>.';
+ 	if(idioma == "ingles"){
+ 		mensaje = ''
+ 				+ 'InfoTour is an application (app) that uses Augmented Reality technology '
+				+ 'with which you can make the tour of the Jesuit Reductions '
+				+ 'Jesus of Tavarangue and Holy Trinity. </br></br>'
+				+ 'This software has been developed using Metaio SDK </br>'
+				+ 'For	more information regarding the permissible uses of the Metaio SDK, please refer to '	
+				+ '<a href="http://www.metaio.com/legal.html">http://www.metaio.com/legal.html</a>.';
+ 	} else if(idioma == "portugues"){
+ 		mensaje = ''
+ 				+ 'InfoTour é uma aplicação (app) que utiliza a tecnologia de Realidade Aumentada '
+				+ 'com o qual você pode fazer o passeio das Reduções Jesuíticas '
+				+ 'Jesus de Tavarangue e da Santíssima Trindade. </br></br>'
+				+ 'A app foi feita com o SDK de Metaio. </br>'
+				+ 'Se deseja saber mais sobre os permisos de metaio visite '	
+				+ '<a href="http://www.metaio.com/legal.html">http://www.metaio.com/legal.html</a>. </br>';
  	}
- 	$.ClassyNotty({
-		title : "ATENCION",
-		content : mensaje,
-		showTime: false
+ 	$.magnificPopup.open({
+	  items: {
+	    src: '<div class="white-popup">' + mensaje + '</div>',
+	    type: 'inline'
+	  },
+	  closeBtnInside: true
 	});
  }

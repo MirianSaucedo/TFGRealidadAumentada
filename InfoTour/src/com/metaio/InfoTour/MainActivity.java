@@ -1,3 +1,4 @@
+
 package com.metaio.InfoTour;
 import java.io.IOException;
 import java.util.Locale;
@@ -21,15 +22,17 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ListView;
 
-import com.metaio.Example.BuildConfig;
-import com.metaio.Example.R;
+import com.metaio.InfoTour.BuildConfig;
+import com.metaio.InfoTour.R;
 import com.metaio.sdk.MetaioDebug;
 import com.metaio.tools.io.AssetsManager;
 
 /**
+ * Copyright 2015 Pedro Damian Gonzalez, Lizza Lopez, Mirian Saucedo
+ * Todos los derechos reservados
+ * Tesis de Realidad aumentada
  * Clase principal para cargar todos los componentes de la app
  * @authors Pedro Damian Gonzalez, Lizza Lopez, Mirian Saucedo
- * Tesis de Realidad aumentada
  */
 @SuppressLint("SetJavaScriptEnabled")
 public class MainActivity extends Activity

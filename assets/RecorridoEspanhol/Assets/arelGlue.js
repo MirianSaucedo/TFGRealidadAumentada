@@ -1,7 +1,7 @@
 arel.sceneReady(function()
 {
 	console.log("sceneReady");
-	
+	arel.Scene.setTrackingConfiguration(arel.Tracking.GPS);
 	arel.Scene.setLLAObjectRenderingLimits(3,500 );
 	arel.Scene.setPickingSoundEnabled(true);
 	//arel.Scene.shareScreenshot(true);

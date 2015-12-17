@@ -16,7 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.metaio.Example.R;
+import com.metaio.InfoTour.R;
 import com.metaio.sdk.ARViewActivity;
 import com.metaio.sdk.MetaioDebug;
 import com.metaio.sdk.jni.AnnotatedGeometriesGroupCallback;
@@ -108,7 +108,7 @@ public class LocationBasedAR extends ARViewActivity
 				sensorValues.getAttitude().getRotationMatrix(m);
 
 				Vector3d v = new Vector3d(m[6], m[7], m[8]);
-				v = v.normalize();
+				v = v.getNormalized();
 
 				heading = (float)(-Math.atan2(v.getY(), v.getX()) - Math.PI/2.0);
 			}
@@ -201,7 +201,7 @@ public class LocationBasedAR extends ARViewActivity
 
 			// Load imagen de fondo
 			
-			float dpi = SystemInfo.getDisplayDensity(getApplicationContext());
+			float dpi = SystemInfo.getDisplayDensity();
 			int scale = dpi > 240 ? 2 : 1;
 			String filepath = AssetsManager.getAssetPath(getApplicationContext(), "RecorridoEspanhol/Assets/POI_bg" + (scale == 2 ? "@2x" : "") + ".png");
 			Bitmap mBackgroundImage = BitmapFactory.decodeFile(filepath);

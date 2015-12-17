@@ -32,6 +32,7 @@
 	<script src="js/jquery.classynotty.js"></script>
 	<script src="js/jquery.classynotty.min.js"></script>
 	<script src="js/dist/jquery.magnific-popup.js"></script>
+	<script src="js/jquery.isloading.min.js"></script>
 
 	<style type="text/css">
 		#principal li { 
@@ -79,7 +80,7 @@
 				<p id="tu_recorrido">Tu Recorrido </p>
 			</header>
 			<footer>
-				<div id="link"></div>
+				<div id="link"><a href="#" onclick="irA(false);return false;" class="button style2">INICIAR RECORRIDO</a></div>
 			</footer>
 		</section> 
 		<section id="footer">
@@ -115,6 +116,7 @@
 					<div class="12u$">
 						<ul class="actions">
 							<li><input type="button" id="boton_contacto" value="Enviar Mensaje" onclick="javascript:enviarMail();"/></li>
+							<li id="encuesta"><a href="http://es.surveymonkey.com/r/7WWHDPD"><i class="fa fa-pie-chart"></i> &nbsp; Complete la encuesta sobre InfoTour</a></li>
 						</ul>
 					</div>
 				</div>
@@ -167,20 +169,16 @@
 		</div>
 	</div>
 	
-	<!-- Acerca de Nosotros -->
-	<div id="about" style="display:none">
+	<!-- Instrucciones -->
+	<div id="instrucciones" style="display:none">
 		<div class="swiper-container">
 			<div class="swiper-wrapper">
 				<div class="swiper-container">
 					<div class="swiper-wrapper">
 						<div class="page-inner">
-							<!-- Texto Acerca de nosotros -->
-							<h1 style="text-align: center;">Acerca de InfoTour</h1>
-							<div id="contenidoAbout"> <p style='text-align: justify;'>
-								InfoTour es una aplicación(app) que utiliza la tecnología de Realidad Aumentada 
-								con el cual se puede realizar el recorrido por las Reducciones Jesuíticas de
-								Jesus de Tavarangue y Santísima Trinidad.
-								
+							<!-- Texto Instrucciones -->
+							<h1 style="text-align: center;">InfoTour</h1>
+							<div id="contenidoIntrucciones"> <p style='text-align: justify;'>
 								Solo debes de hacer click en el menu y click en "Recorrido RA" para empezar 
 								tu recorrido. Apunta la camara de tu celular y la aplicación te mostrará los 
 								puntos de interés(POI). Al hacer click en cualquier POI aparecerá una ventana 

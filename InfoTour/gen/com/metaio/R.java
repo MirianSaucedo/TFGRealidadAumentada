@@ -36,7 +36,7 @@ public final class R {
 		public static final int button_green_pressed = 0x7f02000b;
 		public static final int default_video_poster = 0x7f020013;
 		public static final int divider = 0x7f020014;
-		public static final int icon_placeholder = 0x7f020019;
+		public static final int icon_placeholder = 0x7f020017;
 		public static final int poi_background = 0x7f02001b;
 		public static final int progress_bar = 0x7f02001c;
 		public static final int radar_inner = 0x7f02001d;

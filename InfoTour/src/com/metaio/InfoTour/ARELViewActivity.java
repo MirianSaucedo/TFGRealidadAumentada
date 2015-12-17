@@ -4,7 +4,7 @@ package com.metaio.InfoTour;
 
 import android.view.View;
 
-import com.metaio.Example.R;
+import com.metaio.InfoTour.R;
 import com.metaio.sdk.ARELActivity;
 
 /**
