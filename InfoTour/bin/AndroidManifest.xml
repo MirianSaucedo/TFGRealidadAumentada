@@ -2,7 +2,7 @@
     package="com.metaio.InfoTour"
     android:installLocation="auto"
     android:versionCode="1"
-    android:versionName="1.0 TFG" >
+    android:versionName="1.0 SENATUR" >
 
     <uses-sdk
         android:minSdkVersion="10"

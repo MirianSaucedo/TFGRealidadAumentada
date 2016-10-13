@@ -1,7 +1,6 @@
-// Copyright 2007-2014 Metaio GmbH. All rights reserved.
+// Copyright 2007-2014 metaio GmbH. All rights reserved.
 package com.metaio.sdk;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -20,6 +19,7 @@ import android.widget.FrameLayout;
 
 import com.metaio.R;
 import com.metaio.sdk.jni.Camera;
+import com.metaio.sdk.jni.CameraVector;
 import com.metaio.sdk.jni.ERENDER_SYSTEM;
 import com.metaio.sdk.jni.ESCREEN_ROTATION;
 import com.metaio.sdk.jni.IGeometry;
@@ -31,24 +31,34 @@ import com.metaio.tools.Screen;
 import com.metaio.tools.SystemInfo;
 
 /**
- * This is base activity to use Metaio SDK. It creates GLSurfaceView and handle all its callbacks
- * and lifecycle. Feel free to change the base class to other kind of Activity like
- * ActionBarActivity from the AppCompat library
+ * This is base activity to use metaio SDK. It creates metaio GLSurfaceView and handle all its
+ * callbacks and lifecycle.
  * 
  */
-@TargetApi(Build.VERSION_CODES.GINGERBREAD_MR1)
 public abstract class ARViewActivity extends FragmentActivity implements MetaioSurfaceView.Callback, OnTouchListener
 {
+	protected static boolean nativeLibsLoaded;
+
+	static
+	{
+		nativeLibsLoaded = IMetaioSDKAndroid.loadNativeLibs();
+	}
+
 	/**
 	 * Defines whether the activity is currently paused
 	 */
 	protected boolean mActivityIsPaused;
 
 	/**
-	 * DisplayManager.DisplayListener object to handle 180 degree screen orientation changes. It is
-	 * only supported on Android 4.2 (API Level 17) or above
+	 * Used to handle 180 degree screen orientation changes (only supported on Android level 17 or newer,
+	 * i.e. Android 4.2+)
 	 */
-	private Object mDisplayListener;
+	private DisplayManager.DisplayListener mDisplayListener;
+
+	/**
+	 * Used to register/unregister mDisplayListener on resume/pause
+	 */
+	private DisplayManager mDisplayManager;
 
 	/**
 	 * Sensor manager
@@ -106,25 +116,35 @@ public abstract class ARViewActivity extends FragmentActivity implements MetaioS
 	protected abstract void onGeometryTouched(IGeometry geometry);
 
 	/**
-	 * Load native libs required by the Metaio SDK
-	 */
-	protected void loadNativeLibs() throws UnsatisfiedLinkError
-	{
-		IMetaioSDKAndroid.loadNativeLibs();
-		MetaioDebug.log(Log.INFO, "MetaioSDK libs loaded for " + SystemInfo.getDeviceABI() + " using "
-				+ com.metaio.sdk.jni.SystemInfo.getAvailableCPUCores() + " CPU cores");
-	}
-
-	/**
-	 * Start the default back facing camera. Override this to change the camera or its parameters
-	 * such as resolution, image flip or frame rate.
+	 * Start camera. Override this to change camera or its parameters such as resolution, image flip
+	 * or frame rate
 	 */
 	protected void startCamera()
 	{
-		metaioSDK.startCamera(Camera.FACE_BACK);
+		final CameraVector cameras = metaioSDK.getCameraList();
+		if (!cameras.isEmpty())
+		{
+			com.metaio.sdk.jni.Camera camera = cameras.get(0);
+
+			// Choose back facing camera
+			for (int i = 0; i < cameras.size(); i++)
+			{
+				if (cameras.get(i).getFacing() == Camera.FACE_BACK)
+				{
+					camera = cameras.get(i);
+					break;
+				}
+			}
+
+			metaioSDK.startCamera(camera);
+		}
+		else
+		{
+			MetaioDebug.log(Log.WARN, "No camera found on the device!");
+		}
 	}
 
-	@SuppressLint("InlinedApi")
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -132,26 +152,24 @@ public abstract class ARViewActivity extends FragmentActivity implements MetaioS
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		MetaioDebug.log("ARViewActivity.onCreate");
 
-		mDisplayListener = null;
 		metaioSDK = null;
 		mSurfaceView = null;
 		mRendererInitialized = false;
 
 		try
 		{
-			// Load native libs
-			loadNativeLibs();
+			if (!nativeLibsLoaded)
+				throw new Exception("Unsupported platform, failed to load the native libs");
 
-			// Create Metaio SDK by passing the Activity instance and the application signature
-			metaioSDK = MetaioSDK.CreateMetaioSDKAndroid(this, getResources().getString(R.string.metaioSDKSignature));
+			MetaioDebug.log(Log.INFO,
+					"metaioSDK libs loaded for " + SystemInfo.getDeviceABI() + " using " + SystemInfo.getNumCPUCores()
+							+ " CPU cores");
 
-			if (metaioSDK == null)
-			{
-				throw new Exception("Unsupported platform!");
-			}
-
-			// Create and register Android sensors component
+			// Create sensors component
 			mSensors = new SensorsComponentAndroid(getApplicationContext());
+
+			// Create metaio SDK by passing the Activity instance and the application signature
+			metaioSDK = MetaioSDK.CreateMetaioSDKAndroid(this, getResources().getString(R.string.metaioSDKSignature));
 			metaioSDK.registerSensorsComponent(mSensors);
 
 			// Inflate GUI view if provided
@@ -165,6 +183,7 @@ public abstract class ARViewActivity extends FragmentActivity implements MetaioS
 
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
 			{
+				mDisplayManager = (DisplayManager)getSystemService(Context.DISPLAY_SERVICE);
 				mDisplayListener = new DisplayManager.DisplayListener()
 				{
 					@Override
@@ -175,7 +194,7 @@ public abstract class ARViewActivity extends FragmentActivity implements MetaioS
 					@Override
 					public void onDisplayChanged(int displayId)
 					{
-						final ESCREEN_ROTATION rotation = Screen.getRotation(getApplicationContext());
+						final ESCREEN_ROTATION rotation = Screen.getRotation(ARViewActivity.this);
 						metaioSDK.setScreenRotation(rotation);
 					}
 
@@ -189,7 +208,7 @@ public abstract class ARViewActivity extends FragmentActivity implements MetaioS
 		catch (Exception e)
 		{
 			MetaioDebug.log(Log.ERROR,
-					"ARViewActivity.onCreate: failed to create or intialize Metaio SDK: " + e.getMessage());
+					"ARViewActivity.onCreate: failed to create or intialize metaio SDK: " + e.getMessage());
 			finish();
 		}
 	}
@@ -219,7 +238,7 @@ public abstract class ARViewActivity extends FragmentActivity implements MetaioS
 
 	}
 
-	@SuppressLint("InlinedApi")
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	@Override
 	protected void onPause()
 	{
@@ -230,17 +249,16 @@ public abstract class ARViewActivity extends FragmentActivity implements MetaioS
 		if (mSurfaceView != null)
 			mSurfaceView.onPause();
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && mDisplayListener != null)
+		if (mDisplayManager != null && mDisplayListener != null)
 		{
-			DisplayManager displayManager = (DisplayManager)getSystemService(Context.DISPLAY_SERVICE);
-			displayManager.unregisterDisplayListener((DisplayManager.DisplayListener)mDisplayListener);
+			mDisplayManager.unregisterDisplayListener(mDisplayListener);
 		}
 
 		mActivityIsPaused = true;
 		metaioSDK.pause();
 	}
 
-	@SuppressLint("InlinedApi")
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	@Override
 	protected void onResume()
 	{
@@ -250,10 +268,9 @@ public abstract class ARViewActivity extends FragmentActivity implements MetaioS
 		metaioSDK.resume();
 		mActivityIsPaused = false;
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && mDisplayListener != null)
+		if (mDisplayManager != null && mDisplayListener != null)
 		{
-			DisplayManager displayManager = (DisplayManager)getSystemService(Context.DISPLAY_SERVICE);
-			displayManager.registerDisplayListener((DisplayManager.DisplayListener)mDisplayListener, null);
+			mDisplayManager.registerDisplayListener(mDisplayListener, null);
 		}
 
 		// Create GLSurfaceView if not yet created
@@ -341,7 +358,7 @@ public abstract class ARViewActivity extends FragmentActivity implements MetaioS
 	{
 		super.onConfigurationChanged(newConfig);
 
-		final ESCREEN_ROTATION rotation = Screen.getRotation(getApplicationContext());
+		final ESCREEN_ROTATION rotation = Screen.getRotation(this);
 		metaioSDK.setScreenRotation(rotation);
 
 		MetaioDebug.log("onConfigurationChanged: " + rotation);
@@ -391,7 +408,7 @@ public abstract class ARViewActivity extends FragmentActivity implements MetaioS
 			if (!mRendererInitialized)
 			{
 				MetaioDebug.log("ARViewActivity.onSurfaceCreated: initializing renderer...");
-				final ESCREEN_ROTATION rotation = Screen.getRotation(getApplicationContext());
+				final ESCREEN_ROTATION rotation = Screen.getRotation(this);
 				metaioSDK.setScreenRotation(rotation);
 				metaioSDK.initializeRenderer(mSurfaceView.getWidth(), mSurfaceView.getHeight(), rotation,
 						ERENDER_SYSTEM.ERENDER_SYSTEM_OPENGL_ES_2_0);

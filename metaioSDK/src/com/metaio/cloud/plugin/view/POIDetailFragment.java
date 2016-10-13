@@ -74,8 +74,7 @@ public class POIDetailFragment extends DialogFragment implements OnItemClickList
 	private MetaioDialogListener mDialogListener;
 
 	public POIDetailFragment()
-	{
-	}
+	{}
 
 	private static final String ARG_SHOW_AS_DIALOG = "POIDetailFragment.ARG_SHOW_AS_DIALOG";
 
@@ -98,7 +97,7 @@ public class POIDetailFragment extends DialogFragment implements OnItemClickList
 	{
 		super.onCreate(savedInstanceState);
 		Bundle args = getArguments();
-		if (args != null)
+		if (args!=null)
 		{
 			isDialog = args.getBoolean(ARG_SHOW_AS_DIALOG, false);
 		}
@@ -156,7 +155,7 @@ public class POIDetailFragment extends DialogFragment implements OnItemClickList
 	{
 		super.onDestroy();
 
-		if (poiThumbnail != null)
+		if (poiThumbnail!=null)
 			poiThumbnail.cancelDownload();
 	}
 
@@ -167,10 +166,10 @@ public class POIDetailFragment extends DialogFragment implements OnItemClickList
 	{
 		try
 		{
-			if (v == null)
+			if (v==null)
 				v = getView();
 
-			if (mPOI.getThumbnailURL().length() > 0)
+			if (mPOI.getThumbnailURL().length()>0)
 			{
 				final String thumbnailURL = mPOI.getThumbnailURL();
 				poiThumbnail.setRemoteSource(new String(thumbnailURL));
@@ -181,13 +180,13 @@ public class POIDetailFragment extends DialogFragment implements OnItemClickList
 			}
 
 			final String name = mPOI.getName();
-			if (name != null && name.length() >= 0)
+			if (name!=null&&name.length()>=0)
 				poiName.setText(name);
 
 			poiDescription.setText(mPOI.getDescription());
 
 			// add clickable links to strings like emails and websites
-			Linkify.addLinks(poiDescription, Linkify.EMAIL_ADDRESSES | Linkify.WEB_URLS);
+			Linkify.addLinks(poiDescription, Linkify.EMAIL_ADDRESSES|Linkify.WEB_URLS);
 
 			// show location information only if the POI has LLA coordinates
 			if (mPOI.hasLLA())
@@ -206,7 +205,7 @@ public class POIDetailFragment extends DialogFragment implements OnItemClickList
 				poiLocation.setText(MetaioCloudUtils.getRelativeLocationString(mPOI.getCurrentDistance(), 0, false,
 						MetaioCloudPlugin.Settings.useImperialUnits));
 
-				MetaioCloudPlugin.log("Bearing: " + results[1]);
+				MetaioCloudPlugin.log("Bearing: "+results[1]);
 
 				poiLocation.setVisibility(View.VISIBLE);
 			}
@@ -236,7 +235,7 @@ public class POIDetailFragment extends DialogFragment implements OnItemClickList
 		}
 		catch (Exception e)
 		{
-			MetaioCloudPlugin.log("POIDetailDialog.updateGUI: " + e.getMessage());
+			MetaioCloudPlugin.log("POIDetailDialog.updateGUI: "+e.getMessage());
 		}
 	}
 
@@ -253,7 +252,7 @@ public class POIDetailFragment extends DialogFragment implements OnItemClickList
 		public PoiActionsAdapter(ObjectButtonVector buttons)
 		{
 			buttonList = new ArrayList<ObjectButton>((int)buttons.size());
-			for (int i = 0, j = (int)buttons.size(); i < j; i++)
+			for (int i = 0, j = (int)buttons.size(); i<j; i++)
 			{
 				ObjectButton button = buttons.get(i);
 				buttonList.add(button);
@@ -284,7 +283,7 @@ public class POIDetailFragment extends DialogFragment implements OnItemClickList
 			View v = convertView;
 			ObjectButton button = buttonList.get(position);
 
-			if (v == null)
+			if (v==null)
 			{
 				v = LayoutInflater.from(getActivity()).inflate(R.layout.button_action_detail, parent, false);
 			}
@@ -292,7 +291,7 @@ public class POIDetailFragment extends DialogFragment implements OnItemClickList
 			String text =
 					MetaioCloudPlugin.getResourceString(getActivity().getApplicationContext(), button.getButtonName());
 			TextView tv = (TextView)v;
-			if (text != null)
+			if (text!=null)
 				tv.setText(text);
 			else
 			{
@@ -322,15 +321,15 @@ public class POIDetailFragment extends DialogFragment implements OnItemClickList
 		{
 			Intent intent =
 					new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("google.navigation:q="
-							+ mPOI.getLocation().getLatitude() + "," + mPOI.getLocation().getLongitude()));
+							+mPOI.getLocation().getLatitude()+","+mPOI.getLocation().getLongitude()));
 			List<ResolveInfo> list =
 					getActivity().getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-			if (list.size() > 0)
+			if (list.size()>0)
 			{
 				ObjectButton button = new ObjectButton();
 				button.setButtonName(getString(R.string.MSG_TITLE_DIRECTIONS));
-				button.setButtonValue("google.navigation:q=" + mPOI.getLocation().getLatitude() + ","
-						+ mPOI.getLocation().getLongitude());
+				button.setButtonValue("google.navigation:q="+mPOI.getLocation().getLatitude()+","
+						+mPOI.getLocation().getLongitude());
 				adapter.add(button);
 			}
 		}
@@ -346,7 +345,7 @@ public class POIDetailFragment extends DialogFragment implements OnItemClickList
 	{
 		String url = (String)view.getTag();
 
-		if (url.toLowerCase(Locale.US).startsWith("junaio://") || url.toLowerCase().startsWith("javascript"))
+		if (url.toLowerCase(Locale.US).startsWith("junaio://")||url.toLowerCase().startsWith("javascript"))
 		{
 
 			Intent result = new Intent();
@@ -363,7 +362,7 @@ public class POIDetailFragment extends DialogFragment implements OnItemClickList
 		}
 		else
 		{
-			Intent intent = new Intent(getActivity().getPackageName() + ".PROCESSURL");
+			Intent intent = new Intent(getActivity().getPackageName()+".PROCESSURL");
 			intent.putExtra("url", url);
 			LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
 			if (isDialog)

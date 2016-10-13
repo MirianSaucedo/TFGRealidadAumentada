@@ -3,6 +3,7 @@
 	<name>InfoTour</name>
 	<comment></comment>
 	<projects>
+		<project>metaioSDK</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

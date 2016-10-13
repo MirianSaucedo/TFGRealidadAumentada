@@ -1,4 +1,11 @@
-// Copyright 2007-2014 Metaio GmbH. All rights reserved.
+/**
+ * WebViewActivity.java Junaio 2.6 Android
+ * 
+ * Junaio Web View
+ * 
+ * @author Created by Arsalan Malik on 1631 24.06.2011 Copyright 2011 metaio GmbH. All rights
+ *         reserved.
+ */
 package com.metaio.cloud.plugin.view;
 
 import android.annotation.SuppressLint;
@@ -40,22 +47,16 @@ import android.widget.Toast;
 
 import com.metaio.R;
 import com.metaio.cloud.plugin.MetaioCloudPlugin;
+import com.metaio.cloud.plugin.data.MetaioCloudDataManager;
 import com.metaio.cloud.plugin.util.JunaioChannel;
 import com.metaio.cloud.plugin.util.MetaioCloudUtils;
-import com.metaio.sdk.MetaioDebug;
-import com.metaio.sdk.jni.IMetaioSDKAndroid;
+import com.metaio.sdk.jni.ASWorldReturnCode;
+import com.metaio.sdk.jni.AS_MetaioWorldRequestCommand;
+import com.metaio.sdk.jni.MetaioWorldRequest;
+import com.metaio.sdk.jni.MetaioWorldRequestChannelsManageGet;
 
-@SuppressWarnings("deprecation")
 public class WebViewActivity extends Activity
 {
-    static {
-        try {
-            IMetaioSDKAndroid.loadNativeLibs();
-        } catch (Exception e) {
-            MetaioDebug.log(Log.ERROR, "Can't load native libraries");
-        }
-    }
-
 	/**
 	 * Web view
 	 */
@@ -89,7 +90,8 @@ public class WebViewActivity extends Activity
 		{
 			// get url and navigatio preference (default true)
 			final String url = getIntent().getStringExtra(getPackageName() + ".URL");
-			final boolean navigation = getIntent().getBooleanExtra(getPackageName() + ".NAVIGATION", true);
+			final boolean navigation =
+					getIntent().getBooleanExtra(getPackageName() + ".NAVIGATION", true);
 
 			setContentView(R.layout.webviewnav);
 
@@ -103,15 +105,15 @@ public class WebViewActivity extends Activity
 				findViewById(R.id.webBottomBar).setVisibility(View.GONE);
 			}
 
-			mButtonBack = (ImageButton)findViewById(R.id.buttonWebBack);
-			mButtonForward = (ImageButton)findViewById(R.id.buttonWebForward);
-			mButtonStop = (ImageButton)findViewById(R.id.buttonWebStop);
+			mButtonBack = (ImageButton) findViewById(R.id.buttonWebBack);
+			mButtonForward = (ImageButton) findViewById(R.id.buttonWebForward);
+			mButtonStop = (ImageButton) findViewById(R.id.buttonWebStop);
 
-			mProgressView = (ProgressBar)findViewById(R.id.progressBar);
+			mProgressView = (ProgressBar) findViewById(R.id.progressBar);
 			mProgressView.setIndeterminate(true);
 
 			// init webview
-			mWebView = (WebView)findViewById(R.id.webView);
+			mWebView = (WebView) findViewById(R.id.webView);
 
 			// disable hw accel as it creates flickering pages, html5 video won't work with this
 			if (Build.VERSION.SDK_INT >= 11 && Build.VERSION.SDK_INT < 16)
@@ -142,9 +144,9 @@ public class WebViewActivity extends Activity
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
 				settings.setAllowUniversalAccessFromFileURLs(true);
 
-			MetaioWebViewClient client = new MetaioWebViewClient();
+			JunaioWebViewClient client = new JunaioWebViewClient();
 			mWebView.setWebViewClient(client);
-			mWebView.setWebChromeClient(new MetaioWebChromeClient());
+			mWebView.setWebChromeClient(new JunaioWebChromeClient());
 
 			registerForContextMenu(mWebView);
 
@@ -187,9 +189,8 @@ public class WebViewActivity extends Activity
 	@Override
 	protected void onSaveInstanceState(Bundle outState)
 	{
-		mWebView.saveState(outState);
 		super.onSaveInstanceState(outState);
-
+		mWebView.saveState(outState);
 	}
 
 	@Override
@@ -268,16 +269,16 @@ public class WebViewActivity extends Activity
 	{
 		super.onCreateContextMenu(menu, v, menuInfo);
 
-		final HitTestResult result = ((WebView)v).getHitTestResult();
+		final HitTestResult result = ((WebView) v).getHitTestResult();
 
-		MenuItem.OnMenuItemClickListener handler = new MenuItem.OnMenuItemClickListener()
-		{
+		MenuItem.OnMenuItemClickListener handler = new MenuItem.OnMenuItemClickListener() {
 			public boolean onMenuItemClick(MenuItem item)
 			{
 				switch (item.getItemId())
 				{
 					case ID_OPENWINDOWLINK:
-						Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(result.getExtra()));
+						Intent intent =
+								new Intent(Intent.ACTION_VIEW, Uri.parse(result.getExtra()));
 						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent);
 						break;
@@ -289,29 +290,28 @@ public class WebViewActivity extends Activity
 			}
 		};
 
-		if (result.getType() == HitTestResult.IMAGE_TYPE || result.getType() == HitTestResult.SRC_IMAGE_ANCHOR_TYPE)
+		if (result.getType() == HitTestResult.IMAGE_TYPE
+				|| result.getType() == HitTestResult.SRC_IMAGE_ANCHOR_TYPE)
 		{
 			// Menu options for an image.
 			// set the header title to the image url
 			menu.setHeaderTitle(result.getExtra());
-			menu.add(0, ID_OPENWINDOWLINK, 0, getString(R.string.MENU_OPEN_IMG_EXTERNAL)).setOnMenuItemClickListener(
-                    handler);
+			menu.add(0, ID_OPENWINDOWLINK, 0, getString(R.string.MENU_OPEN_IMG_EXTERNAL))
+					.setOnMenuItemClickListener(handler);
 		}
-		else if (result.getType() == HitTestResult.ANCHOR_TYPE || result.getType() == HitTestResult.SRC_ANCHOR_TYPE)
+		else if (result.getType() == HitTestResult.ANCHOR_TYPE
+				|| result.getType() == HitTestResult.SRC_ANCHOR_TYPE)
 		{
 			// Menu options for a hyperlink.
 			// set the header title to the link url
 			menu.setHeaderTitle(result.getExtra());
-			menu.add(0, ID_OPENWINDOWLINK, 0, getString(R.string.MENU_OPEN_LINK_EXTERNAL)).setOnMenuItemClickListener(
-                    handler);
+			menu.add(0, ID_OPENWINDOWLINK, 0, getString(R.string.MENU_OPEN_LINK_EXTERNAL))
+					.setOnMenuItemClickListener(handler);
 		}
 
 	}
 
-	/**
-	 * Custom WebChromeClient class to handle the events
-	 */
-	private class MetaioWebChromeClient extends WebChromeClient
+	private class JunaioWebChromeClient extends WebChromeClient
 	{
 
 		@Override
@@ -325,9 +325,13 @@ public class WebViewActivity extends Activity
 		@Override
 		public boolean onConsoleMessage(ConsoleMessage consoleMessage)
 		{
-			// if we are in developer mode or beta
-			if (MetaioCloudPlugin.Settings.developerMode)
-				Toast.makeText(getApplicationContext(), consoleMessage.message(), Toast.LENGTH_LONG).show();
+			int isBetaResId = getResources().getIdentifier("isBeta", "boolean", getPackageName());
+			boolean isBeta = isBetaResId > 0?getResources().getBoolean(isBetaResId):false;
+
+			// if we are in beta, display errors as toasts
+			if (MetaioCloudPlugin.isDebuggable || isBeta)
+				Toast.makeText(getApplicationContext(), consoleMessage.message(), Toast.LENGTH_LONG)
+						.show();
 			MetaioCloudPlugin.log(consoleMessage.message());
 
 			return super.onConsoleMessage(consoleMessage);
@@ -339,9 +343,9 @@ public class WebViewActivity extends Activity
 			MetaioCloudPlugin.log("onJsAlert " + message);
 
 			// display javascript alerts as AlertDialogs
-			new AlertDialog.Builder(view.getContext()).setTitle("javaScript dialog").setMessage(message)
-					.setPositiveButton(android.R.string.ok, new AlertDialog.OnClickListener()
-					{
+			new AlertDialog.Builder(view.getContext()).setTitle("javaScript dialog")
+					.setMessage(message)
+					.setPositiveButton(android.R.string.ok, new AlertDialog.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which)
 						{
 							result.confirm();
@@ -358,34 +362,37 @@ public class WebViewActivity extends Activity
 			return false;
 		}
 
-		
-		public void onExceededDatabaseQuota(String url, String databaseIdentifier, long currentQuota,
-				long estimatedSize, long totalUsedQuota, WebStorage.QuotaUpdater quotaUpdater)
+		public void onExceededDatabaseQuota(String url, String databaseIdentifier,
+				long currentQuota, long estimatedSize, long totalUsedQuota,
+				WebStorage.QuotaUpdater quotaUpdater)
 		{
 			quotaUpdater.updateQuota(estimatedSize * 2);
 		}
 
-		public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback)
+		public void onGeolocationPermissionsShowPrompt(String origin,
+				GeolocationPermissions.Callback callback)
 		{
 			callback.invoke(origin, true, false);
 		}
 
 		ViewGroup customView;
-		CustomViewCallback mCustomViewCallback;
+		WebChromeClient.CustomViewCallback mCustomViewCallback;
 
 		@Override
-		public void onShowCustomView(View view, CustomViewCallback callback)
+		public void onShowCustomView(View view, WebChromeClient.CustomViewCallback callback)
 		{
-			customView = (ViewGroup)LayoutInflater.from(getApplicationContext()).inflate(R.layout.html5container, null);
+			customView =
+					(ViewGroup) LayoutInflater.from(getApplicationContext()).inflate(
+							R.layout.html5container, null);
 
 
 			mCustomViewCallback = callback;
-			FrameLayout mHtml5Container = (FrameLayout)customView.findViewById(R.id.html5viewcontainer);
+			FrameLayout mHtml5Container =
+					(FrameLayout) customView.findViewById(R.id.html5viewcontainer);
 			mHtml5Container.addView(view);
 
-			ImageButton closeButton = (ImageButton)customView.findViewById(R.id.buttonClose);
-			closeButton.setOnClickListener(new OnClickListener()
-			{
+			ImageButton closeButton = (ImageButton) customView.findViewById(R.id.buttonClose);
+			closeButton.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v)
@@ -394,7 +401,7 @@ public class WebViewActivity extends Activity
 				}
 			});
 
-			ViewGroup root = (ViewGroup)findViewById(android.R.id.content);
+			ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
 			root.addView(customView);
 
 		}
@@ -408,15 +415,14 @@ public class WebViewActivity extends Activity
 				{
 					ViewParent viewparent = customView.getParent();
 					if (viewparent != null)
-						((ViewGroup)viewparent).removeView(customView);
+						((ViewGroup) viewparent).removeView(customView);
 				}
-				mCustomViewCallback.onCustomViewHidden();
 			}
 			catch (Exception e)
 			{
 				Log.e("WebViewActivity", "Can't remove custom view (video player)", e);
 			}
-
+			mCustomViewCallback.onCustomViewHidden();
 		}
 
 		@Override
@@ -428,11 +434,14 @@ public class WebViewActivity extends Activity
 		@Override
 		public View getVideoLoadingProgressView()
 		{
-			return new ProgressBar(getApplicationContext(), null, android.R.attr.progressBarStyleLarge);
+			return new ProgressBar(getApplicationContext(), null,
+					android.R.attr.progressBarStyleLarge);
 		}
 	}
 
-	private class MetaioWebViewClient extends WebViewClient
+	private class JunaioWebViewClient extends WebViewClient
+			implements
+				MetaioCloudDataManager.Callback
 	{
 
 		@Override
@@ -453,14 +462,14 @@ public class WebViewActivity extends Activity
 					}
 					catch (Exception e)
 					{
-						MetaioCloudPlugin.log(Log.ERROR, "WebViewActivity: Failed to launched the default intent");
+						MetaioCloudPlugin.log(Log.ERROR,
+								"WebViewActivity: Failed to launched the default intent");
 						return false;
 					}
 				}
 			}
 			catch (Exception e)
-			{
-			}
+			{}
 			try
 			{
 
@@ -470,11 +479,23 @@ public class WebViewActivity extends Activity
 					finish();
 					return true;
 				}
-				else if ((channel = MetaioCloudUtils.parseUrl(Uri.parse(url))) != null && channel.getChannelID() > -1)
+				else if ((channel = MetaioCloudUtils.parseUrl(Uri.parse(url))) != null
+						&& channel.getChannelID() > -1)
 				{
 					MetaioCloudPlugin.log("Channel ID: " + channel.getChannelID());
-                    MetaioCloudPlugin.getDataSource().loadPOIsAndChannelInformationForID(channel.getChannelID());
-                    finish();
+
+					MetaioWorldRequestChannelsManageGet channelsGetRequest =
+							new MetaioWorldRequestChannelsManageGet();
+					channelsGetRequest.setChannelID(channel.getChannelID());
+					for (String name : channel.getFilters().keySet())
+					{
+						channelsGetRequest.setParameter(name, channel.getFilters().get(name));
+					}
+
+					MetaioCloudPlugin.getDataManager().addRequest(channelsGetRequest);
+
+					MetaioCloudPlugin.getDataManager().registerCallback(this);
+
 					return true;
 				}
 				// Open in Google Docs viewer if supported file type (based on file extention)
@@ -574,6 +595,44 @@ public class WebViewActivity extends Activity
 				}
 			}
 		}
+
+		@Override
+		public void onReceivedError(WebView view, int errorCode, String description,
+				String failingUrl)
+		{
+			MetaioCloudPlugin.log("Failed loading " + failingUrl + " " + description);
+			mProgressView.setVisibility(View.GONE);
+
+			MetaioCloudUtils.showToast(WebViewActivity.this, description);
+			super.onReceivedError(view, errorCode, description, failingUrl);
+		}
+
+		@Override
+		public void onRequestStarted()
+		{}
+
+		@Override
+		public void onRequestCompleted(MetaioWorldRequest request, int error)
+		{
+
+			if (error == ASWorldReturnCode.AS_WORLD_API_SUCCESS.swigValue())
+			{
+				if (request.getCommand() == AS_MetaioWorldRequestCommand.AS_MetaioWorldRequestType_CHANNELS_MANAGE_GET)
+				{
+					MetaioCloudPlugin.getDataSource().setChannel(
+							((MetaioWorldRequestChannelsManageGet) request).getResult());
+					finish();
+				}
+			}
+
+		}
+
+		@Override
+		public void onRequestCancelled(MetaioWorldRequest request)
+		{
+
+		}
+
 	}
 
 }

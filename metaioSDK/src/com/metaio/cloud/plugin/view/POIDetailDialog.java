@@ -23,7 +23,7 @@ public class POIDetailDialog extends FragmentActivity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		if (item.getItemId() == android.R.id.home)
+		if (item.getItemId()==android.R.id.home)
 		{
 			setResult(RESULT_CANCELED);
 			finish();

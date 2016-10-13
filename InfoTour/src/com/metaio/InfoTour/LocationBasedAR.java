@@ -108,7 +108,7 @@ public class LocationBasedAR extends ARViewActivity
 				sensorValues.getAttitude().getRotationMatrix(m);
 
 				Vector3d v = new Vector3d(m[6], m[7], m[8]);
-				v = v.getNormalized();
+				v = v.normalize();
 
 				heading = (float)(-Math.atan2(v.getY(), v.getX()) - Math.PI/2.0);
 			}
@@ -201,7 +201,7 @@ public class LocationBasedAR extends ARViewActivity
 
 			// Load imagen de fondo
 			
-			float dpi = SystemInfo.getDisplayDensity();
+			float dpi = SystemInfo.getDisplayDensity(getApplicationContext());
 			int scale = dpi > 240 ? 2 : 1;
 			String filepath = AssetsManager.getAssetPath(getApplicationContext(), "RecorridoEspanhol/Assets/POI_bg" + (scale == 2 ? "@2x" : "") + ".png");
 			Bitmap mBackgroundImage = BitmapFactory.decodeFile(filepath);

@@ -1,18 +1,17 @@
-apply plugin: 'com.android.library'
+apply plugin: 'android-library'
 
 dependencies {
-    //this excludes libs/android-support-v4.jar that is added through gradle dependencies but kept for Eclipse users
     compile fileTree(dir: 'libs', includes: ['metaiosdk.jar', '*.so'])
-    compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.android.support:support-v4:19.1.0'
 }
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion '21.1.1'
+    compileSdkVersion 19
+    buildToolsVersion '20'
 	
 	defaultConfig {
 		minSdkVersion 10
-		targetSdkVersion 21
+		targetSdkVersion 19
 	}
 	
 		
